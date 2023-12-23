@@ -2,21 +2,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>com.cj</groupId>
-        <artifactId>jerry-rpc</artifactId>
+        <groupId>com.cj.jerry</groupId>
+        <artifactId>jerry-rpc-framework</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>rpc-demo</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>jerry-rpc-common</artifactId>
+    <packaging>jar</packaging>
 
-    <name>rpc-demo</name>
+    <name>jerry-rpc-common</name>
     <url>http://maven.apache.org</url>
-    <modules>
-        <module>rpc-client-demo</module>
-        <module>rpc-server-demo</module>
-        <module>rpc-api</module>
-    </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -24,16 +19,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

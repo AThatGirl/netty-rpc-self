@@ -11,16 +11,27 @@
   <url>http://maven.apache.org</url>
   <modules>
     <module>rpc-demo</module>
+    <module>jerry-rpc-framework</module>
+    <module>jerry-rpc-manager</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <netty.version>4.1.89.Final</netty.version>
     <junit.version>4.13.2</junit.version>
+    <zookeeper.version>3.8.1</zookeeper.version>
+    <commons.lang3.version>3.12.0</commons.lang3.version>
+    <logback.version>1.4.8</logback.version>
+    <fastjson.version>2.0.34</fastjson.version>
+    <lombok.version>1.18.26</lombok.version>
   </properties>
 
   <dependencies>
-
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.12.0</version>
+    </dependency>
   </dependencies>
   <dependencyManagement>
     <!--netty-->
@@ -35,6 +46,28 @@
         <artifactId>junit</artifactId>
         <version>${junit.version}</version>
         <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.zookeeper</groupId>
+        <artifactId>zookeeper</artifactId>
+        <version>${zookeeper.version}</version>
+      </dependency>
+      <!--日志-->
+      <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>${logback.version}</version>
+      </dependency>
+      <!--fastjson-->
+      <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>${fastjson.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <version>${lombok.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

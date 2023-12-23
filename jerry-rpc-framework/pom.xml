@@ -7,15 +7,15 @@
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>rpc-demo</artifactId>
+    <groupId>com.cj.jerry</groupId>
+    <artifactId>jerry-rpc-framework</artifactId>
     <packaging>pom</packaging>
 
-    <name>rpc-demo</name>
+    <name>jerry-rpc-framework</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>rpc-client-demo</module>
-        <module>rpc-server-demo</module>
-        <module>rpc-api</module>
+        <module>jerry-rpc-core</module>
+        <module>jerry-rpc-common</module>
     </modules>
 
     <properties>
@@ -24,16 +24,10 @@
 
     <dependencies>
         <dependency>
-            <groupId>io.netty</groupId>
-            <artifactId>netty-all</artifactId>
-        </dependency>
-        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.zookeeper</groupId>
-            <artifactId>zookeeper</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>
