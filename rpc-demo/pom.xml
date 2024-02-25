@@ -13,8 +13,8 @@
     <name>rpc-demo</name>
     <url>http://maven.apache.org</url>
     <modules>
-        <module>rpc-client-demo</module>
-        <module>rpc-server-demo</module>
+        <module>rpc-consumer-demo</module>
+        <module>rpc-provider-demo</module>
         <module>rpc-api</module>
     </modules>
 

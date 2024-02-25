@@ -20,6 +20,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.cj.jerry</groupId>
+            <artifactId>jerry-rpc-core</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>3.8.1</version>

@@ -8,7 +8,7 @@
     </parent>
 
     <groupId>com.cj.jerry</groupId>
-    <artifactId>rpc-server-demo</artifactId>
+    <artifactId>rpc-provider-demo</artifactId>
     <packaging>jar</packaging>
 
     <name>rpc-server-demo</name>
