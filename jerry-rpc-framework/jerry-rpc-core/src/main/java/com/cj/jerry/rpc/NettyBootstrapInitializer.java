@@ -1,5 +1,6 @@
 package com.cj.jerry.rpc;
 
+import com.cj.jerry.rpc.channelHandler.ConsumerChannelInitializer;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -26,23 +27,7 @@ public class NettyBootstrapInitializer {
         NioEventLoopGroup group = new NioEventLoopGroup();
         bootstrap.group(group)
                 .channel(NioSocketChannel.class)
-                .handler(new ChannelInitializer<>() {
-
-                    @Override
-                    protected void initChannel(Channel channel) throws Exception {
-                        channel.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
-                            @Override
-                            protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf msg) throws Exception {
-                                //从全局挂起的请求中寻找与之匹配待处理的cf
-                                String result = msg.toString(Charset.defaultCharset());
-                                log.info("客户端收到消息：{}", result);
-                                CompletableFuture<Object> completableFuture = JerryRpcBootstrap.PENDING_QUESTIONS.get(1L);
-                                completableFuture.complete(result);
-                            }
-                        });
-                    }
-
-                });
+                .handler(new ConsumerChannelInitializer());
     }
     private NettyBootstrapInitializer() {
 
