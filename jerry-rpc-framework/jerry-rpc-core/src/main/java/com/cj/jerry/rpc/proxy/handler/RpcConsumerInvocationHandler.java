@@ -4,6 +4,8 @@ import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.NettyBootstrapInitializer;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.exception.NetworkException;
+import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
+import com.cj.jerry.rpc.transport.message.RequestPayload;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
@@ -38,7 +40,22 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
         if (log.isDebugEnabled()) {
             log.debug("获取了和【{}】建立的通道准备发送数据", address);
         }
-        //TODO 封装报文
+        //封装报文
+        RequestPayload requestPayload = RequestPayload.builder()
+                .interfaceName(interfaceRef.getName())
+                .methodName(method.getName())
+                .parameterTypes(method.getParameterTypes())
+                .parameterValues(args)
+                .returnType(method.getReturnType())
+                .build();
+        JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
+                .requestId(1L)
+                .compressType((byte) 1)
+                .requestType((byte) 1)
+                .serializeType((byte) 1)
+                .requestPayload(requestPayload)
+                .build();
+
         Channel channel = getAvailableChannel(address);
         /*
                 //同步策略
@@ -52,7 +69,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
         //异步策略
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
         JerryRpcBootstrap.PENDING_QUESTIONS.put(1L, completableFuture);
-        channel.writeAndFlush(Unpooled.copiedBuffer("jerry-rpc hello".getBytes())).addListener((ChannelFutureListener) promise -> {
+        channel.writeAndFlush(jerryRpcRequest).addListener((ChannelFutureListener) promise -> {
             if (!promise.isSuccess()) {
                 Throwable cause = promise.cause();
                 throw new RuntimeException(cause);
