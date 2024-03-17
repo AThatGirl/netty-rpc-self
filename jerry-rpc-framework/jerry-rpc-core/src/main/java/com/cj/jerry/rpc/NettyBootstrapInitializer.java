@@ -11,6 +11,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.Charset;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * 提供一个bootstrap单例
@@ -32,7 +33,11 @@ public class NettyBootstrapInitializer {
                         channel.pipeline().addLast(new SimpleChannelInboundHandler<ByteBuf>() {
                             @Override
                             protected void channelRead0(ChannelHandlerContext channelHandlerContext, ByteBuf msg) throws Exception {
-                                log.info("客户端收到消息：{}", msg.toString(Charset.defaultCharset()));
+                                //从全局挂起的请求中寻找与之匹配待处理的cf
+                                String result = msg.toString(Charset.defaultCharset());
+                                log.info("客户端收到消息：{}", result);
+                                CompletableFuture<Object> completableFuture = JerryRpcBootstrap.PENDING_QUESTIONS.get(1L);
+                                completableFuture.complete(result);
                             }
                         });
                     }

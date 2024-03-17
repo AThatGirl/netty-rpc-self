@@ -1,7 +1,9 @@
 package com.cj.jerry.rpc;
 
 import com.cj.jerry.rpc.discovery.RegistryConfig;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ConsumerApplication {
 
     public static void main(String[] args) {
@@ -22,6 +24,7 @@ public class ConsumerApplication {
 
         //获取一个代理对象
         HelloJerryRpc helloJerryRpc = reference.get();
-        helloJerryRpc.sayHi("Jerry hi");
+        String jerryHi = helloJerryRpc.sayHi("Jerry hi");
+        log.info("sayHi的返回值为: {}", jerryHi);
     }
 }

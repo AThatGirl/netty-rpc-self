@@ -15,6 +15,7 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
 
@@ -35,9 +36,10 @@ public class JerryRpcBootstrap {
     private Registry registry;
     //key是interface全限定名，value是ServiceConfig
     //连接的缓存
-    public static final Map<InetSocketAddress, Channel> CHANNEL_MAP = new ConcurrentHashMap<>(16); // <ip:port, channel>
+    public static final Map<InetSocketAddress, Channel> CHANNEL_CACHE = new ConcurrentHashMap<>(16); // <ip:port, channel>
     public static final Map<String, ServiceConfig<?>> SERVICE_LIST = new HashMap<>(16);
-
+    //定义全局对外挂起的completableFuture
+    public static final Map<Long, CompletableFuture<Object>> PENDING_QUESTIONS = new HashMap<>(16);
 
     public JerryRpcBootstrap() {
 
@@ -94,7 +96,7 @@ public class JerryRpcBootstrap {
                                 protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
                                     ByteBuf byteBuf = (ByteBuf) msg;
                                     log.info("收到客户端消息：{}",byteBuf.toString(Charset.defaultCharset()));
-                                    //channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer("jerry-rpc hello服务端收到".getBytes()));
+                                    channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer("jerry-rpc hello服务端收到".getBytes()));
                                 }
                             });
                         }

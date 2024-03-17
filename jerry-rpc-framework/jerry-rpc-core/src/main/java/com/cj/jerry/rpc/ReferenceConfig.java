@@ -49,8 +49,8 @@ public class ReferenceConfig<T> {
                 if (log.isDebugEnabled()) {
                     log.debug("服务调用方，发现了服务【{}】的可用主机【{}】", interfaceRef.getName(), address);
                 }
-                Channel channel = JerryRpcBootstrap.CHANNEL_MAP.get(address);
-                if (channel == null) {
+                Channel channel = JerryRpcBootstrap.CHANNEL_CACHE.get(address);
+                /*if (channel == null) {
 
                     NioEventLoopGroup group = new NioEventLoopGroup();
                     Bootstrap bootstrap = new Bootstrap();
@@ -65,12 +65,12 @@ public class ReferenceConfig<T> {
                                 });
                         channel = bootstrap.connect(address).sync().channel();
                         //缓存
-                        JerryRpcBootstrap.CHANNEL_MAP.put(address, channel);
+                        JerryRpcBootstrap.CHANNEL_CACHE.put(address, channel);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                }
+                }*/
 
                 //如果还是没有创建好channel
                 if (channel == null) {
@@ -87,7 +87,7 @@ public class ReferenceConfig<T> {
                     });
                     channel = channelFuture.get(3, TimeUnit.SECONDS);
                     //缓存
-                    JerryRpcBootstrap.CHANNEL_MAP.put(address, channel);
+                    JerryRpcBootstrap.CHANNEL_CACHE.put(address, channel);
                 }
                 if (channel == null) {
                     throw new NetworkException("获取通道发生异常");
@@ -102,7 +102,8 @@ public class ReferenceConfig<T> {
                     throw new RuntimeException(cause);
                 }*/
                 //异步策略
-                CompletableFuture<Object> completableFuture = new CompletableFuture();
+                CompletableFuture<Object> completableFuture = new CompletableFuture<>();
+                JerryRpcBootstrap.PENDING_QUESTIONS.put(1L, completableFuture);
                 channel.writeAndFlush(Unpooled.copiedBuffer("jerry-rpc hello".getBytes())).addListener((ChannelFutureListener) promise -> {
                     if (!promise.isSuccess()) {
                         Throwable cause = promise.cause();
@@ -111,7 +112,8 @@ public class ReferenceConfig<T> {
                     log.info("consumer发送消息成功");
                 });
 //                completableFuture.get(3, TimeUnit.SECONDS)
-                return null;
+                //如果这里没有处理completableFuture，那么就会阻塞在这里
+                return completableFuture.get(10, TimeUnit.SECONDS);
             }
         });
         return (T) helloProxy;
