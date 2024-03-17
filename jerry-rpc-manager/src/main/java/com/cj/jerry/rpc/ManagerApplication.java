@@ -1,15 +1,12 @@
 package com.cj.jerry.rpc;
 
-import com.cj.jerry.rpc.exception.ZookeeperException;
 import com.cj.jerry.rpc.utils.zookeeper.ZookeeperNode;
-import com.cj.jerry.rpc.utils.zookeeper.ZookeeperUtil;
+import com.cj.jerry.rpc.utils.zookeeper.ZookeeperUtils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.*;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 
 @Slf4j
 public class ManagerApplication {
@@ -19,7 +16,7 @@ public class ManagerApplication {
 
 
         //MyWatcher是默认Watcher
-        ZooKeeper zooKeeper = ZookeeperUtil.createZooKeeper();
+        ZooKeeper zooKeeper = ZookeeperUtils.createZooKeeper();
         String basePath = "/jrpc-metadata";
         String providersPath = basePath + "/providers";
         String consumersPath = basePath + "/consumers";
@@ -27,9 +24,9 @@ public class ManagerApplication {
         ZookeeperNode providersNode = new ZookeeperNode(providersPath, null);
         ZookeeperNode consumersNode = new ZookeeperNode(consumersPath, null);
         List.of(baseNode, providersNode, consumersNode).forEach(node -> {
-            ZookeeperUtil.createNode(zooKeeper, node, null, CreateMode.PERSISTENT);
+            ZookeeperUtils.createNode(zooKeeper, node, null, CreateMode.PERSISTENT);
         });
-        ZookeeperUtil.close(zooKeeper);
+        ZookeeperUtils.close(zooKeeper);
     }
 
 }

@@ -8,10 +8,11 @@ import com.cj.jerry.rpc.exception.ZookeeperException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.*;
 
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 @Slf4j
-public class ZookeeperUtil {
+public class ZookeeperUtils {
 
     public static ZooKeeper createZooKeeper() {
         CountDownLatch countDownLatch = new CountDownLatch(1);
@@ -72,7 +73,38 @@ public class ZookeeperUtil {
             log.error("关闭zookeeper发生异常", e);
             throw new ZookeeperException();
         }
-
     }
 
+    /**
+     * 判断节点是否存在
+     *
+     * @param path
+     * @param zooKeeper
+     * @param watcher
+     * @return
+     */
+    public static boolean exists(ZooKeeper zooKeeper, String path, Watcher watcher) {
+        try {
+            return zooKeeper.exists(path, watcher) != null;
+        } catch (KeeperException | InterruptedException e) {
+            log.error("判断节点{}是否存在发生异常", path, e);
+            throw new ZookeeperException();
+        }
+    }
+
+    /**
+     * 查询一个节点的子元素
+     * @param zooKeeper
+     * @param serviceNode
+     */
+    public static List<String> getChildren(ZooKeeper zooKeeper, String serviceNode, Watcher watcher) {
+
+        try {
+            return zooKeeper.getChildren(serviceNode, watcher);
+        } catch (KeeperException | InterruptedException e) {
+            log.error("查询节点{}的子节点发生异常", serviceNode, e);
+            throw new ZookeeperException();
+        }
+
+    }
 }

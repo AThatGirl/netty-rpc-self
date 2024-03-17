@@ -1,8 +1,9 @@
 package com.cj.jerry.rpc;
 
+import com.cj.jerry.rpc.discovery.RegistryConfig;
 import com.cj.jerry.rpc.impl.HelloJerryRpcImpl;
 
-public class Application {
+public class ProviderApplication {
     public static void main(String[] args) {
         ServiceConfig<HelloJerryRpc> service = new ServiceConfig<>();
         service.setInterfaceProvider(HelloJerryRpc.class);

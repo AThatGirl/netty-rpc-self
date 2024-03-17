@@ -1,6 +1,6 @@
 package com.cj.jerry.rpc;
 
-import java.lang.ref.Reference;
+import com.cj.jerry.rpc.discovery.RegistryConfig;
 
 public class ConsumerApplication {
 
