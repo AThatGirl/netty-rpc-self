@@ -74,8 +74,8 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 Throwable cause = promise.cause();
                 throw new RuntimeException(cause);
             }
-            log.info("consumer发送消息成功");
         });
+        log.info("consumer发送消息成功:{}", jerryRpcRequest);
 //                completableFuture.get(3, TimeUnit.SECONDS)
         //如果这里没有处理completableFuture，那么就会阻塞在这里
         return completableFuture.get(10, TimeUnit.SECONDS);

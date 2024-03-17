@@ -1,5 +1,6 @@
 package com.cj.jerry.rpc;
 
+import com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import io.netty.bootstrap.ServerBootstrap;
@@ -7,7 +8,9 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
@@ -88,17 +91,12 @@ public class JerryRpcBootstrap {
             ServerBootstrap serverBootstrap = new ServerBootstrap();
             serverBootstrap.group(boss, worker)
                     .channel(NioServerSocketChannel.class)
-                    .childHandler(new ChannelInitializer<Channel>() {
+                    .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(Channel channel) throws Exception {
-                            channel.pipeline().addLast(new SimpleChannelInboundHandler<Object>() {
-                                @Override
-                                protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object msg) throws Exception {
-                                    ByteBuf byteBuf = (ByteBuf) msg;
-                                    log.info("收到客户端消息：{}",byteBuf.toString(Charset.defaultCharset()));
-                                    channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer("jerry-rpc hello服务端收到".getBytes()));
-                                }
-                            });
+                        protected void initChannel(SocketChannel channel) throws Exception {
+                            channel.pipeline()
+                                    .addLast(new LoggingHandler())
+                                    .addLast(new JerryRpcMessageDecoder());
                         }
                     });
             //绑定端口

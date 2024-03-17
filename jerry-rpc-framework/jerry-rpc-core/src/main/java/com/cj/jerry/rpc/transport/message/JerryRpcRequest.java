@@ -1,9 +1,6 @@
 package com.cj.jerry.rpc.transport.message;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * 服务调用方发起的请求内容
@@ -12,6 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class JerryRpcRequest {
 
     //请求的id
