@@ -1,6 +1,7 @@
 package com.cj.jerry.rpc;
 
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder;
+import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import io.netty.bootstrap.ServerBootstrap;
@@ -96,7 +97,9 @@ public class JerryRpcBootstrap {
                         protected void initChannel(SocketChannel channel) throws Exception {
                             channel.pipeline()
                                     .addLast(new LoggingHandler())
-                                    .addLast(new JerryRpcMessageDecoder());
+                                    .addLast(new JerryRpcMessageDecoder())
+                                    //根据请求进行方法调用
+                                    .addLast(new MethodCallHandler());
                         }
                     });
             //绑定端口

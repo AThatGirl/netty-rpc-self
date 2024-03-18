@@ -3,6 +3,7 @@ package com.cj.jerry.rpc.proxy.handler;
 import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.NettyBootstrapInitializer;
 import com.cj.jerry.rpc.discovery.Registry;
+import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.exception.NetworkException;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
@@ -51,7 +52,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
         JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
                 .requestId(1L)
                 .compressType((byte) 1)
-                .requestType((byte) 1)
+                .requestType(RequestType.REQUEST_TYPE.getId())
                 .serializeType((byte) 1)
                 .requestPayload(requestPayload)
                 .build();

@@ -1,5 +1,6 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
+import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
@@ -43,14 +44,29 @@ public class JerryRpcMessageEncoder extends MessageToByteEncoder<JerryRpcRequest
         byteBuf.writeByte(jerryRpcRequest.getCompressType());
         //8B requestId
         byteBuf.writeLong(jerryRpcRequest.getRequestId());
+        //判断心跳请求
+//        if (jerryRpcRequest.getRequestType() == RequestType.HEART_BEAT.getId()) {
+//            //处理一下总长度
+//            int writeIndex = byteBuf.writerIndex();
+//            //将写指针的位置移动到总长度的位置上
+//            byteBuf.writerIndex(MessageFormatConstant.HEADER_LENGTH + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH + MessageFormatConstant.FULL_FIELD_LENGTH);
+//            byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH);
+//            //将写指针归位
+//            byteBuf.writerIndex(writeIndex);
+//            return;
+//        }
+
         byte[] bodyBytes = getBodyBytes(jerryRpcRequest.getRequestPayload());
-        byteBuf.writeBytes(bodyBytes);
+        if (bodyBytes.length != 0) {
+            byteBuf.writeBytes(bodyBytes);
+        }
+        int byteLength = bodyBytes.length == 0 ? 0 : bodyBytes.length;
         //重新处理报文长度
         //保存当前写指针的位置
         int writeIndex = byteBuf.writerIndex();
         //将写指针的位置移动到总长度的位置上
-        byteBuf.writerIndex(7);
-        byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH + bodyBytes.length);
+        byteBuf.writerIndex(MessageFormatConstant.HEADER_LENGTH + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH + MessageFormatConstant.FULL_FIELD_LENGTH);
+        byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH + byteLength);
         //将写指针归位
         byteBuf.writerIndex(writeIndex);
     }

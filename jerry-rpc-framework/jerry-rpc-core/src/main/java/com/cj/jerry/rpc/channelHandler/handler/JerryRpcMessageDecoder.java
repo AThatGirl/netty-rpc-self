@@ -1,5 +1,6 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
+import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
@@ -93,8 +94,8 @@ public class JerryRpcMessageDecoder extends LengthFieldBasedFrameDecoder {
         jerryRpcRequest.setCompressType(compress);
         jerryRpcRequest.setRequestId(requestId);
 
-        //TODO 心跳请求没有负载，此处可以判断直接返回
-        if (requestType == 2) {
+        //心跳请求没有负载，此处可以判断直接返回
+        if (requestType == RequestType.HEART_BEAT.getId()) {
             return jerryRpcRequest;
         }
         //解析body
