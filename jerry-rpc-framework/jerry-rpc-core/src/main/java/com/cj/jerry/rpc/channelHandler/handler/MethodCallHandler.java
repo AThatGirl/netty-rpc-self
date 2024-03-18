@@ -2,7 +2,9 @@ package com.cj.jerry.rpc.channelHandler.handler;
 
 import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.ServiceConfig;
+import com.cj.jerry.rpc.enumeration.RespCode;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
+import com.cj.jerry.rpc.transport.message.JerryRpcResponse;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -20,10 +22,15 @@ public class MethodCallHandler extends SimpleChannelInboundHandler<JerryRpcReque
         //根据负载内容进行方法调用
         Object object = callTargetMethod(requestPayload);
         //封装响应
-        JerryRpcRequest objectRequest = new JerryRpcRequest();
+        JerryRpcResponse response = new JerryRpcResponse();
+        response.setCode(RespCode.SUCCESS.getCode());
+        response.setRequestId(jerryRpcRequest.getRequestId());
+        response.setSerializeType(jerryRpcRequest.getSerializeType());
+        response.setCompressType(jerryRpcRequest.getCompressType());
+        response.setBody(object);
 
         //写出响应
-        channelHandlerContext.channel().writeAndFlush(object);
+        channelHandlerContext.channel().writeAndFlush(response);
     }
 
     private Object callTargetMethod(RequestPayload requestPayload) {

@@ -10,18 +10,21 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class JerryRpcRequest {
+public class JerryRpcResponse {
 
     //请求的id
     private long requestId;
 
     //请求的类型，压缩的类型，序列化方式
-    private byte requestType;
+    //private Byte requestType;
     private byte compressType;
     private byte serializeType;
 
+    //响应码：1：成功，2：异常
+    private byte code;
+
 
     //具体的消息体
-    private RequestPayload requestPayload;
+    private Object body;
 
 }

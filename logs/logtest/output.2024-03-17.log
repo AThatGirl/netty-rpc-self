@@ -2852,7 +2852,8 @@ java.io.IOException: 远程主机强迫关闭了一个现有的连接。
 2024-03-17  20:59:40.334 [nioEventLoopGroup-3-1] DEBUG io.netty.buffer.AbstractByteBuf - -Dio.netty.buffer.checkAccessible: true
 2024-03-17  20:59:40.334 [nioEventLoopGroup-3-1] DEBUG io.netty.buffer.AbstractByteBuf - -Dio.netty.buffer.checkBounds: true
 2024-03-17  20:59:40.335 [nioEventLoopGroup-3-1] DEBUG io.netty.util.ResourceLeakDetectorFactory - Loaded default ResourceLeakDetector: io.netty.util.ResourceLeakDetector@5397a78
-2024-03-17  20:59:40.345 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.JerryRpcBootstrap - 收到客户端消息：jerry-r  �           �� sr 1com.cj.jerry.rpc.transport.message.RequestPayload�LZg~e� L interfaceNamet Ljava/lang/String;L 
+2024-03-17  20:59:40.345 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.JerryRpcBootstrap - 收到客户端消息：jerry-r  �           �� sr 1com.cj.jerry.rpc.transport.message.RequestPayload�LZg~e� L 
+interfaceNamet Ljava/lang/String;L 
 methodNameq ~ [ parameterTypest [Ljava/lang/Class;[ parameterValuest [Ljava/lang/Object;L 
 returnTypet Ljava/lang/Class;xpt com.cj.jerry.rpc.HelloJerryRpct sayHiur [Ljava.lang.Class;�׮��Z�  xp   vr java.lang.String��8z;�B  xpur [Ljava.lang.Object;��X�s)l  xp   t Jerry hiq ~ 
 2024-03-17  20:59:42.161 [main-SendThread(127.0.0.1:2181)] DEBUG org.apache.zookeeper.ClientCnxn - Got ping response for session id: 0x1000599aca60062 after 1ms.
@@ -3573,7 +3574,7 @@ org.apache.zookeeper.ClientCnxn$SessionTimeoutException: Client session timed ou
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:38)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:38)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -3759,7 +3760,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:38)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:38)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -3959,7 +3960,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:39)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:39)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -4143,7 +4144,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:39)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:39)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -4325,7 +4326,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 |00000190| 29 6c 02 00 00 78 70 00 00 00 01 74 00 08 4a 65 |)l...xp....t..Je|
 |000001a0| 72 72 79 20 68 69 71 00 7e 00 0b                |rry hiq.~..     |
 +--------+-------------------------------------------------+----------------+
-2024-03-17  23:20:03.772 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 调用decodeFrame方法
+2024-03-17  23:20:03.772 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 调用decodeFrame方法
 2024-03-17  23:20:03.778 [nioEventLoopGroup-3-1] WARN  io.netty.channel.DefaultChannelPipeline - An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
 io.netty.handler.codec.DecoderException: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) exceeds writerIndex(426): PooledSlicedByteBuf(ridx: 22, widx: 426, cap: 426/426, unwrapped: PooledUnsafeDirectByteBuf(ridx: 426, widx: 427, cap: 2048))
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:499)
@@ -4355,8 +4356,8 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 	at io.netty.buffer.AbstractByteBuf.checkReadableBytes(AbstractByteBuf.java:1428)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:895)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:903)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decodeFrame(JerryRpcMessageDecoder.java:89)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:43)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decodeFrame(JerryRpcMessageDecoder.java:89)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:43)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -4523,15 +4524,15 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 |00000190| 29 6c 02 00 00 78 70 00 00 00 01 74 00 08 4a 65 |)l...xp....t..Je|
 |000001a0| 72 72 79 20 68 69 71 00 7e 00 0b                |rry hiq.~..     |
 +--------+-------------------------------------------------+----------------+
-2024-03-17  23:28:42.461 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 调用decodeFrame方法
-2024-03-17  23:28:42.461 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 魔数jrpc匹配成功:
-2024-03-17  23:28:42.461 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 版本1匹配成功
-2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 头部长度为21
-2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 总长度为426
-2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 请求类型为1
-2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 序列化为1
-2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 压缩为1
-2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 请求id为1
+2024-03-17  23:28:42.461 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 调用decodeFrame方法
+2024-03-17  23:28:42.461 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 魔数jrpc匹配成功:
+2024-03-17  23:28:42.461 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 版本1匹配成功
+2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 头部长度为21
+2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 总长度为426
+2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 请求类型为1
+2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 序列化为1
+2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 压缩为1
+2024-03-17  23:28:42.462 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 请求id为1
 2024-03-17  23:28:42.466 [nioEventLoopGroup-3-1] WARN  io.netty.channel.DefaultChannelPipeline - An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
 io.netty.handler.codec.DecoderException: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) exceeds writerIndex(426): PooledSlicedByteBuf(ridx: 22, widx: 426, cap: 426/426, unwrapped: PooledUnsafeDirectByteBuf(ridx: 426, widx: 427, cap: 2048))
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:499)
@@ -4561,8 +4562,8 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 	at io.netty.buffer.AbstractByteBuf.checkReadableBytes(AbstractByteBuf.java:1428)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:895)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:903)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decodeFrame(JerryRpcMessageDecoder.java:97)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:43)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decodeFrame(JerryRpcMessageDecoder.java:97)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:43)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -4896,7 +4897,7 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 |00000190| 29 6c 02 00 00 78 70 00 00 00 01 74 00 08 4a 65 |)l...xp....t..Je|
 |000001a0| 72 72 79 20 68 69 71 00 7e 00 0b                |rry hiq.~..     |
 +--------+-------------------------------------------------+----------------+
-2024-03-17  23:38:14.838 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - decode不是ByteBuf类型
+2024-03-17  23:38:14.838 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - decode不是ByteBuf类型
 2024-03-17  23:38:14.838 [nioEventLoopGroup-3-1] DEBUG io.netty.handler.logging.LoggingHandler - [id: 0x0b22ac3b, L:/192.168.111.1:8088 - R:/192.168.111.1:14207] READ COMPLETE
 2024-03-17  23:38:17.184 [main-SendThread(127.0.0.1:2181)] DEBUG org.apache.zookeeper.ClientCnxn - Got ping response for session id: 0x1000599aca6008e after 2ms.
 2024-03-17  23:38:17.603 [main-SendThread(127.0.0.1:2181)] DEBUG org.apache.zookeeper.ClientCnxn - Got ping response for session id: 0x1000599aca6008f after 2ms.
@@ -5059,7 +5060,7 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 |00000190| 29 6c 02 00 00 78 70 00 00 00 01 74 00 08 4a 65 |)l...xp....t..Je|
 |000001a0| 72 72 79 20 68 69 71 00 7e 00 0b                |rry hiq.~..     |
 +--------+-------------------------------------------------+----------------+
-2024-03-17  23:39:13.160 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - decode不是ByteBuf类型
+2024-03-17  23:39:13.160 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - decode不是ByteBuf类型
 2024-03-17  23:39:13.161 [nioEventLoopGroup-3-1] DEBUG io.netty.handler.logging.LoggingHandler - [id: 0x42ed5ca8, L:/192.168.111.1:8088 - R:/192.168.111.1:14336] READ COMPLETE
 2024-03-17  23:39:14.581 [main-SendThread(127.0.0.1:2181)] DEBUG org.apache.zookeeper.ClientCnxn - Got ping response for session id: 0x1000599aca60092 after 2ms.
 2024-03-17  23:39:14.957 [main-SendThread(127.0.0.1:2181)] DEBUG org.apache.zookeeper.ClientCnxn - Got ping response for session id: 0x1000599aca60093 after 1ms.
@@ -5218,16 +5219,16 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 |00000190| 29 6c 02 00 00 78 70 00 00 00 01 74 00 08 4a 65 |)l...xp....t..Je|
 |000001a0| 72 72 79 20 68 69 71 00 7e 00 0b                |rry hiq.~..     |
 +--------+-------------------------------------------------+----------------+
-2024-03-17  23:43:17.711 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 调用decodeFrame方法
-2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 魔数jrpc匹配成功:
-2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 版本1匹配成功
-2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 头部长度为22
-2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 总长度为427
-2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 请求类型为1
-2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 序列化为1
-2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 压缩为1
-2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 请求id为1
-2024-03-17  23:43:17.726 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - 获取到请求:JerryRpcRequest(requestId=1, requestType=1, compressType=1, serializeType=1, requestPayload=RequestPayload(interfaceName=com.cj.jerry.rpc.HelloJerryRpc, methodName=sayHi, parameterTypes=[class java.lang.String], parameterValues=[Jerry hi], returnType=class java.lang.String))
+2024-03-17  23:43:17.711 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 调用decodeFrame方法
+2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 魔数jrpc匹配成功:
+2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 版本1匹配成功
+2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 头部长度为22
+2024-03-17  23:43:17.712 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 总长度为427
+2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 请求类型为1
+2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 序列化为1
+2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 压缩为1
+2024-03-17  23:43:17.713 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 请求id为1
+2024-03-17  23:43:17.726 [nioEventLoopGroup-3-1] INFO  com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - 获取到请求:JerryRpcRequest(requestId=1, requestType=1, compressType=1, serializeType=1, requestPayload=RequestPayload(interfaceName=com.cj.jerry.rpc.HelloJerryRpc, methodName=sayHi, parameterTypes=[class java.lang.String], parameterValues=[Jerry hi], returnType=class java.lang.String))
 2024-03-17  23:43:17.740 [nioEventLoopGroup-3-1] DEBUG io.netty.channel.DefaultChannelPipeline - Discarded inbound message JerryRpcRequest(requestId=1, requestType=1, compressType=1, serializeType=1, requestPayload=RequestPayload(interfaceName=com.cj.jerry.rpc.HelloJerryRpc, methodName=sayHi, parameterTypes=[class java.lang.String], parameterValues=[Jerry hi], returnType=class java.lang.String)) that reached at the tail of the pipeline. Please check your pipeline configuration.
 2024-03-17  23:43:17.740 [nioEventLoopGroup-3-1] DEBUG io.netty.channel.DefaultChannelPipeline - Discarded message pipeline : [LoggingHandler#0, JerryRpcMessageDecoder#0, DefaultChannelPipeline$TailContext#0]. Channel : [id: 0xc6df3eb4, L:/192.168.111.1:8088 - R:/192.168.111.1:14845].
 2024-03-17  23:43:17.740 [nioEventLoopGroup-3-1] DEBUG io.netty.handler.logging.LoggingHandler - [id: 0xc6df3eb4, L:/192.168.111.1:8088 - R:/192.168.111.1:14845] READ COMPLETE

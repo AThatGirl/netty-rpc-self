@@ -1,12 +1,11 @@
 package com.cj.jerry.rpc;
 
-import com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder;
+import com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder;
+import com.cj.jerry.rpc.channelHandler.handler.JerryRpcResponseEncoder;
 import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -15,7 +14,6 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,9 +95,10 @@ public class JerryRpcBootstrap {
                         protected void initChannel(SocketChannel channel) throws Exception {
                             channel.pipeline()
                                     .addLast(new LoggingHandler())
-                                    .addLast(new JerryRpcMessageDecoder())
+                                    .addLast(new JerryRpcRequestDecoder())
                                     //根据请求进行方法调用
-                                    .addLast(new MethodCallHandler());
+                                    .addLast(new MethodCallHandler())
+                                    .addLast(new JerryRpcResponseEncoder());
                         }
                     });
             //绑定端口

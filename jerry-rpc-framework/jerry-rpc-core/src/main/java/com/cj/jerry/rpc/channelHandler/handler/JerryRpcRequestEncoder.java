@@ -1,6 +1,5 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
-import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
@@ -12,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * 4B magic(魔数值)
@@ -28,7 +26,7 @@ import java.nio.charset.StandardCharsets;
  * 出栈时第一个经过的处理器
  */
 @Slf4j
-public class JerryRpcMessageEncoder extends MessageToByteEncoder<JerryRpcRequest> {
+public class JerryRpcRequestEncoder extends MessageToByteEncoder<JerryRpcRequest> {
 
 
     @Override
@@ -57,21 +55,25 @@ public class JerryRpcMessageEncoder extends MessageToByteEncoder<JerryRpcRequest
 //        }
 
         byte[] bodyBytes = getBodyBytes(jerryRpcRequest.getRequestPayload());
-        if (bodyBytes.length != 0) {
+        if (bodyBytes != null) {
             byteBuf.writeBytes(bodyBytes);
         }
-        int byteLength = bodyBytes.length == 0 ? 0 : bodyBytes.length;
+        int byteLength = bodyBytes == null ? 0 : bodyBytes.length;
         //重新处理报文长度
         //保存当前写指针的位置
         int writeIndex = byteBuf.writerIndex();
         //将写指针的位置移动到总长度的位置上
-        byteBuf.writerIndex(MessageFormatConstant.HEADER_LENGTH + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH + MessageFormatConstant.FULL_FIELD_LENGTH);
+        byteBuf.writerIndex(MessageFormatConstant.MAGIC.length + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH);
         byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH + byteLength);
         //将写指针归位
         byteBuf.writerIndex(writeIndex);
+        log.info("请求【{}】已经完成报文的编码", jerryRpcRequest.getRequestId());
     }
 
     private byte[] getBodyBytes(RequestPayload requestPayload) {
+        if (requestPayload == null) {
+            return null;
+        }
         //对象变成字节数组
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream objectOutputStream = null;

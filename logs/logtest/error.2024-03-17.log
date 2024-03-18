@@ -246,7 +246,7 @@ org.apache.zookeeper.ClientCnxn$SessionTimeoutException: Client session timed ou
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:38)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:38)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -275,7 +275,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:38)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:38)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -304,7 +304,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:39)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:39)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -333,7 +333,7 @@ io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is les
 io.netty.handler.codec.CorruptedFrameException: Adjusted frame length (0) is less than lengthFieldEndOffset: 16
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.failOnFrameLengthLessThanLengthFieldEndOffset(LengthFieldBasedFrameDecoder.java:359)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:419)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:39)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:39)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -387,8 +387,8 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 	at io.netty.buffer.AbstractByteBuf.checkReadableBytes(AbstractByteBuf.java:1428)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:895)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:903)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decodeFrame(JerryRpcMessageDecoder.java:89)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:43)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decodeFrame(JerryRpcMessageDecoder.java:89)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:43)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
@@ -422,11 +422,11 @@ Caused by: java.lang.IndexOutOfBoundsException: readerIndex(22) + length(405) ex
 	at io.netty.buffer.AbstractByteBuf.checkReadableBytes(AbstractByteBuf.java:1428)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:895)
 	at io.netty.buffer.AbstractByteBuf.readBytes(AbstractByteBuf.java:903)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decodeFrame(JerryRpcMessageDecoder.java:97)
-	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder.decode(JerryRpcMessageDecoder.java:43)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decodeFrame(JerryRpcMessageDecoder.java:97)
+	at com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder.decode(JerryRpcMessageDecoder.java:43)
 	at io.netty.handler.codec.LengthFieldBasedFrameDecoder.decode(LengthFieldBasedFrameDecoder.java:333)
 	at io.netty.handler.codec.ByteToMessageDecoder.decodeRemovalReentryProtection(ByteToMessageDecoder.java:529)
 	at io.netty.handler.codec.ByteToMessageDecoder.callDecode(ByteToMessageDecoder.java:468)
 	... 21 common frames omitted
-2024-03-17  23:38:14.838 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - decode不是ByteBuf类型
-2024-03-17  23:39:13.160 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcMessageDecoder - decode不是ByteBuf类型
+2024-03-17  23:38:14.838 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - decode不是ByteBuf类型
+2024-03-17  23:39:13.160 [nioEventLoopGroup-3-1] ERROR com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder - decode不是ByteBuf类型
