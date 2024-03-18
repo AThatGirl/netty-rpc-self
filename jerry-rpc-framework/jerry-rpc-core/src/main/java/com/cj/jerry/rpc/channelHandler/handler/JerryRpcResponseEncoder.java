@@ -1,6 +1,8 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
 import com.cj.jerry.rpc.JerryRpcBootstrap;
+import com.cj.jerry.rpc.compress.Compressor;
+import com.cj.jerry.rpc.compress.CompressorFactory;
 import com.cj.jerry.rpc.serialize.Serializer;
 import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcResponse;
@@ -49,6 +51,9 @@ public class JerryRpcResponseEncoder extends MessageToByteEncoder<JerryRpcRespon
 
         Serializer serializer = SerializerFactory.getSerializer(jerryRpcResponse.getSerializeType()).getSerializer();
         byte[] bodyBytes = serializer.serialize(jerryRpcResponse.getBody());
+        //压缩
+        Compressor compressor = CompressorFactory.getCompressor(jerryRpcResponse.getCompressType()).getCompressor();
+        bodyBytes = compressor.compress(bodyBytes);
         if (bodyBytes != null) {
             byteBuf.writeBytes(bodyBytes);
         }

@@ -3,9 +3,11 @@ package com.cj.jerry.rpc.serialize;
 import com.cj.jerry.rpc.serialize.impl.HessianSerializer;
 import com.cj.jerry.rpc.serialize.impl.JdkSerializer;
 import com.cj.jerry.rpc.serialize.impl.JsonSerializer;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 public class SerializerFactory {
 
     private final static ConcurrentHashMap<String, SerializerWrapper> SERIALIZER_CACHE = new ConcurrentHashMap<>();
@@ -22,10 +24,18 @@ public class SerializerFactory {
         SERIALIZER_CACHE_CODE.put((byte)3, hessianSerializer);
     }
     public static SerializerWrapper getSerializer(String serializeType) {
+        if (SERIALIZER_CACHE.get(serializeType) == null) {
+            log.info("未找到您配置的序列化策略：{}，默认使用jdk", serializeType);
+            return SERIALIZER_CACHE.get("jdk");
+        }
         return SERIALIZER_CACHE.get(serializeType);
     }
-    public static SerializerWrapper getSerializer(byte serializeType) {
-        return SERIALIZER_CACHE_CODE.get(serializeType);
+    public static SerializerWrapper getSerializer(byte serializeCode) {
+        if (SERIALIZER_CACHE_CODE.get(serializeCode) == null) {
+            log.info("未找到您配置的序列化策略：{}，默认使用jdk", serializeCode);
+            return SERIALIZER_CACHE.get("jdk");
+        }
+        return SERIALIZER_CACHE_CODE.get(serializeCode);
     }
 
 }

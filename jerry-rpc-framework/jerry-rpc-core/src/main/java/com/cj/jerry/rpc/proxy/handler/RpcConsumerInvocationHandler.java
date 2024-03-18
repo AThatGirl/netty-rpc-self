@@ -2,12 +2,14 @@ package com.cj.jerry.rpc.proxy.handler;
 
 import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.NettyBootstrapInitializer;
+import com.cj.jerry.rpc.compress.CompressorFactory;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.exception.NetworkException;
 import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
+import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +53,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .build();
         JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
                 .requestId(JerryRpcBootstrap.idGenerator.getId())
-                .compressType((byte) 1)
+                .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.COMPRESS_TYPE).getCode())
                 .requestType(RequestType.REQUEST_TYPE.getId())
                 .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
                 .requestPayload(requestPayload)

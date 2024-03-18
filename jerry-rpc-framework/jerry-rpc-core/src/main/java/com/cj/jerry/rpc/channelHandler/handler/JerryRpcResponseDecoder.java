@@ -1,5 +1,7 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
+import com.cj.jerry.rpc.compress.Compressor;
+import com.cj.jerry.rpc.compress.CompressorFactory;
 import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.serialize.Serializer;
 import com.cj.jerry.rpc.serialize.SerializerFactory;
@@ -94,7 +96,9 @@ public class JerryRpcResponseDecoder extends LengthFieldBasedFrameDecoder {
         int bodyLength = fullLength - headerLength;
         byte[] payload = new byte[bodyLength];
         byteBuf.readBytes(payload);
-        //TODO 解压缩
+        //解压缩
+        Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
+        payload = compressor.decompress(payload);
 
         //反序列化
         Serializer serializer = SerializerFactory.getSerializer(serialize).getSerializer();

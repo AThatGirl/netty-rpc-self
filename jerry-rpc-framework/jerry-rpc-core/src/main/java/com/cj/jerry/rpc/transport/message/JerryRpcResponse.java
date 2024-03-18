@@ -2,6 +2,8 @@ package com.cj.jerry.rpc.transport.message;
 
 import lombok.*;
 
+import java.io.Serializable;
+
 /**
  * 服务调用方发起的请求内容
  */
@@ -10,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-public class JerryRpcResponse {
+public class JerryRpcResponse implements Serializable {
 
     //请求的id
     private long requestId;

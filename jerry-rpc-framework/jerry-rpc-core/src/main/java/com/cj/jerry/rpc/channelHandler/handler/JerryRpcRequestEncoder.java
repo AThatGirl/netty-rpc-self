@@ -1,6 +1,8 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
 import com.cj.jerry.rpc.JerryRpcBootstrap;
+import com.cj.jerry.rpc.compress.Compressor;
+import com.cj.jerry.rpc.compress.CompressorFactory;
 import com.cj.jerry.rpc.serialize.Serializer;
 import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
@@ -41,19 +43,13 @@ public class JerryRpcRequestEncoder extends MessageToByteEncoder<JerryRpcRequest
         //8B requestId
         byteBuf.writeLong(jerryRpcRequest.getRequestId());
         //判断心跳请求
-//        if (jerryRpcRequest.getRequestType() == RequestType.HEART_BEAT.getId()) {
-//            //处理一下总长度
-//            int writeIndex = byteBuf.writerIndex();
-//            //将写指针的位置移动到总长度的位置上
-//            byteBuf.writerIndex(MessageFormatConstant.HEADER_LENGTH + MessageFormatConstant.VERSION_LENGTH + MessageFormatConstant.HEADER_FIELD_LENGTH + MessageFormatConstant.FULL_FIELD_LENGTH);
-//            byteBuf.writeInt(MessageFormatConstant.HEADER_LENGTH);
-//            //将写指针归位
-//            byteBuf.writerIndex(writeIndex);
-//            return;
-//        }
 
-        Serializer serializer = SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getSerializer();
+        Serializer serializer = SerializerFactory.getSerializer(jerryRpcRequest.getSerializeType()).getSerializer();
         byte[] bodyBytes = serializer.serialize(jerryRpcRequest.getRequestPayload());
+        //压缩方式
+        Compressor compressor = CompressorFactory.getCompressor(jerryRpcRequest.getCompressType()).getCompressor();
+        bodyBytes = compressor.compress(bodyBytes);
+
         if (bodyBytes != null) {
             byteBuf.writeBytes(bodyBytes);
         }

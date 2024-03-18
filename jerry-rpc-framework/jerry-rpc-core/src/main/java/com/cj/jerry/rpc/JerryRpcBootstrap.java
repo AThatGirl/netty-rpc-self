@@ -32,6 +32,7 @@ public class JerryRpcBootstrap {
     private ProtocolConfig protocolConfig;
     public final static IdGenerator idGenerator = new IdGenerator(1,2);
     public static String SERIALIZE_TYPE = "jdk";
+    public static String COMPRESS_TYPE = "gzip";
     private int port = 8088;
     //维护一个zookeeper实例
     //private ZooKeeper zooKeeper;
@@ -135,4 +136,11 @@ public class JerryRpcBootstrap {
         log.info("当前工程使用了:{}序列化", SERIALIZE_TYPE);
         return this;
     }
+    //压缩方式配置
+    public JerryRpcBootstrap compress(String compressType) {
+        COMPRESS_TYPE = compressType;
+        log.info("当前工程使用了:{}压缩", COMPRESS_TYPE);
+        return this;
+    }
+
 }
