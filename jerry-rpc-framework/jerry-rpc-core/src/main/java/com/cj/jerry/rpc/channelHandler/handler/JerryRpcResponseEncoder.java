@@ -1,5 +1,8 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
+import com.cj.jerry.rpc.JerryRpcBootstrap;
+import com.cj.jerry.rpc.serialize.Serializer;
+import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcResponse;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
@@ -43,7 +46,9 @@ public class JerryRpcResponseEncoder extends MessageToByteEncoder<JerryRpcRespon
         //8B requestId
         byteBuf.writeLong(jerryRpcResponse.getRequestId());
 
-        byte[] bodyBytes = getBodyBytes(jerryRpcResponse.getBody());
+
+        Serializer serializer = SerializerFactory.getSerializer(jerryRpcResponse.getSerializeType()).getSerializer();
+        byte[] bodyBytes = serializer.serialize(jerryRpcResponse.getBody());
         if (bodyBytes != null) {
             byteBuf.writeBytes(bodyBytes);
         }
@@ -58,21 +63,4 @@ public class JerryRpcResponseEncoder extends MessageToByteEncoder<JerryRpcRespon
         byteBuf.writerIndex(writeIndex);
     }
 
-    private byte[] getBodyBytes(Object body) {
-        //对象变成字节数组
-        if (body == null) {
-            return null;
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(baos);
-            objectOutputStream.writeObject(body);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            log.error("对象序列化异常", e);
-            throw new RuntimeException(e);
-        }
-
-    }
 }

@@ -1,6 +1,8 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
 import com.cj.jerry.rpc.enumeration.RequestType;
+import com.cj.jerry.rpc.serialize.Serializer;
+import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
@@ -9,9 +11,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -80,8 +79,8 @@ public class JerryRpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         byte requestType = byteBuf.readByte();
         log.info("请求类型为{}" , requestType);
         //解析序列化
-        byte serialize = byteBuf.readByte();
-        log.info("序列化为{}" , serialize);
+        byte serializeType = byteBuf.readByte();
+        log.info("序列化为{}" , serializeType);
         //解析压缩
         byte compress = byteBuf.readByte();
         log.info("压缩为{}" , compress);
@@ -90,7 +89,7 @@ public class JerryRpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         log.info("请求id为{}" , requestId);
         JerryRpcRequest jerryRpcRequest = new JerryRpcRequest();
         jerryRpcRequest.setRequestType(requestType);
-        jerryRpcRequest.setSerializeType(serialize);
+        jerryRpcRequest.setSerializeType(serializeType);
         jerryRpcRequest.setCompressType(compress);
         jerryRpcRequest.setRequestId(requestId);
 
@@ -105,18 +104,9 @@ public class JerryRpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         //TODO 解压缩
 
         //反序列化
-        try (
-                ByteArrayInputStream bais = new ByteArrayInputStream(payload);
-                ObjectInputStream ois = new ObjectInputStream(bais);
-        ) {
-
-            RequestPayload requestPayload = (RequestPayload) ois.readObject();
-            jerryRpcRequest.setRequestPayload(requestPayload);
-        } catch (IOException | ClassNotFoundException e) {
-            log.error("对象反序列化异常", e);
-            throw new RuntimeException(e);
-        }
-        log.info("请求:{}已经在服务端完成解码工作", jerryRpcRequest);
+        Serializer serializer = SerializerFactory.getSerializer(serializeType).getSerializer();
+        RequestPayload requestPayload = serializer.deserialize(payload, RequestPayload.class);
+        jerryRpcRequest.setRequestPayload(requestPayload);
         return jerryRpcRequest;
     }
 }

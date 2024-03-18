@@ -1,14 +1,13 @@
 package com.cj.jerry.rpc.proxy.handler;
 
-import com.cj.jerry.rpc.IdGenerator;
 import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.NettyBootstrapInitializer;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.exception.NetworkException;
+import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +53,10 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .requestId(JerryRpcBootstrap.idGenerator.getId())
                 .compressType((byte) 1)
                 .requestType(RequestType.REQUEST_TYPE.getId())
-                .serializeType((byte) 1)
+                .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
                 .requestPayload(requestPayload)
                 .build();
-
+        log.info("封装的请求完毕：{}",jerryRpcRequest);
         Channel channel = getAvailableChannel(address);
         /*
                 //同步策略

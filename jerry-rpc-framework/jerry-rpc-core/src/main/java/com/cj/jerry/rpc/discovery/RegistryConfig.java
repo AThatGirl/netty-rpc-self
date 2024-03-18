@@ -1,9 +1,8 @@
 package com.cj.jerry.rpc.discovery;
 
 import com.cj.jerry.rpc.Constant;
-import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.impl.ZookeeperRegistry;
-import com.cj.jerry.rpc.exception.DisCoveryException;
+import com.cj.jerry.rpc.exception.DiscoveryException;
 
 public class RegistryConfig {
 
@@ -25,7 +24,7 @@ public class RegistryConfig {
             String host = getRegistryType(connectSting, false);
             return new ZookeeperRegistry(host, Constant.DEFAULT_ZK_SESSION_TIMEOUT);
         }
-        throw new DisCoveryException("未发现合适的注册中心");
+        throw new DiscoveryException("未发现合适的注册中心");
     }
 
     private String getRegistryType(String connectSting, boolean ifType) {

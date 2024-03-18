@@ -1,6 +1,8 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
 import com.cj.jerry.rpc.enumeration.RequestType;
+import com.cj.jerry.rpc.serialize.Serializer;
+import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.JerryRpcResponse;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
@@ -95,18 +97,10 @@ public class JerryRpcResponseDecoder extends LengthFieldBasedFrameDecoder {
         //TODO 解压缩
 
         //反序列化
-        try (
-                ByteArrayInputStream bais = new ByteArrayInputStream(payload);
-                ObjectInputStream ois = new ObjectInputStream(bais);
-        ) {
-
-            Object body = ois.readObject();
-            jerryRpcResponse.setBody(body);
-        } catch (IOException | ClassNotFoundException e) {
-            log.error("对象反序列化异常", e);
-            throw new RuntimeException(e);
-        }
+        Serializer serializer = SerializerFactory.getSerializer(serialize).getSerializer();
+        Object body = serializer.deserialize(payload, Object.class);
         log.info("获取到请求:{}", jerryRpcResponse);
+        jerryRpcResponse.setBody(body);
         return jerryRpcResponse;
     }
 }

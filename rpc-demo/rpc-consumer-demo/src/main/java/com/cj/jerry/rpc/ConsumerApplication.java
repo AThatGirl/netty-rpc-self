@@ -20,6 +20,7 @@ public class ConsumerApplication {
         JerryRpcBootstrap.getInstance()
                 .application("com.cj.jerry.rpc.provider.demo")
                 .registry(new RegistryConfig("zookeeper://127.0.0.1:2181"))
+                .serialize("hessian")
                 .reference(reference);
 
         //获取一个代理对象

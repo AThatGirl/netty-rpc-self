@@ -1,16 +1,14 @@
 package com.cj.jerry.rpc.channelHandler.handler;
 
+import com.cj.jerry.rpc.JerryRpcBootstrap;
+import com.cj.jerry.rpc.serialize.Serializer;
+import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.MessageFormatConstant;
-import com.cj.jerry.rpc.transport.message.RequestPayload;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToByteEncoder;
 import lombok.extern.slf4j.Slf4j;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 /**
  * 4B magic(魔数值)
@@ -54,7 +52,8 @@ public class JerryRpcRequestEncoder extends MessageToByteEncoder<JerryRpcRequest
 //            return;
 //        }
 
-        byte[] bodyBytes = getBodyBytes(jerryRpcRequest.getRequestPayload());
+        Serializer serializer = SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getSerializer();
+        byte[] bodyBytes = serializer.serialize(jerryRpcRequest.getRequestPayload());
         if (bodyBytes != null) {
             byteBuf.writeBytes(bodyBytes);
         }
@@ -70,21 +69,4 @@ public class JerryRpcRequestEncoder extends MessageToByteEncoder<JerryRpcRequest
         log.info("请求【{}】已经完成报文的编码", jerryRpcRequest.getRequestId());
     }
 
-    private byte[] getBodyBytes(RequestPayload requestPayload) {
-        if (requestPayload == null) {
-            return null;
-        }
-        //对象变成字节数组
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream objectOutputStream = null;
-        try {
-            objectOutputStream = new ObjectOutputStream(baos);
-            objectOutputStream.writeObject(requestPayload);
-            return baos.toByteArray();
-        } catch (IOException e) {
-            log.error("对象序列化异常", e);
-            throw new RuntimeException(e);
-        }
-
-    }
 }

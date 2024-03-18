@@ -31,6 +31,7 @@ public class JerryRpcBootstrap {
     private RegistryConfig registryConfig;
     private ProtocolConfig protocolConfig;
     public final static IdGenerator idGenerator = new IdGenerator(1,2);
+    public static String SERIALIZE_TYPE = "jdk";
     private int port = 8088;
     //维护一个zookeeper实例
     //private ZooKeeper zooKeeper;
@@ -126,5 +127,12 @@ public class JerryRpcBootstrap {
 
     public static JerryRpcBootstrap getInstance() {
         return jerryRpcBootstrap;
+    }
+
+    //序列化方式配置
+    public JerryRpcBootstrap serialize(String serializeType) {
+        SERIALIZE_TYPE = serializeType;
+        log.info("当前工程使用了:{}序列化", SERIALIZE_TYPE);
+        return this;
     }
 }
