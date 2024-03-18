@@ -1,5 +1,6 @@
 package com.cj.jerry.rpc.proxy.handler;
 
+import com.cj.jerry.rpc.IdGenerator;
 import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.NettyBootstrapInitializer;
 import com.cj.jerry.rpc.discovery.Registry;
@@ -50,7 +51,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .returnType(method.getReturnType())
                 .build();
         JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
-                .requestId(1L)
+                .requestId(JerryRpcBootstrap.idGenerator.getId())
                 .compressType((byte) 1)
                 .requestType(RequestType.REQUEST_TYPE.getId())
                 .serializeType((byte) 1)

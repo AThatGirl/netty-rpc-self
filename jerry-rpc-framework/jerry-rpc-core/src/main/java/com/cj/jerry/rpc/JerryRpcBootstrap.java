@@ -30,6 +30,7 @@ public class JerryRpcBootstrap {
     private String applicationName = "default";
     private RegistryConfig registryConfig;
     private ProtocolConfig protocolConfig;
+    public final static IdGenerator idGenerator = new IdGenerator(1,2);
     private int port = 8088;
     //维护一个zookeeper实例
     //private ZooKeeper zooKeeper;
