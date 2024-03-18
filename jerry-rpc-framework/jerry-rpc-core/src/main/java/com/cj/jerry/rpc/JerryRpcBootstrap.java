@@ -5,6 +5,8 @@ import com.cj.jerry.rpc.channelHandler.handler.JerryRpcResponseEncoder;
 import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
+import com.cj.jerry.rpc.loadbalancer.LoadBalancer;
+import com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -33,6 +35,7 @@ public class JerryRpcBootstrap {
     public final static IdGenerator idGenerator = new IdGenerator(1,2);
     public static String SERIALIZE_TYPE = "jdk";
     public static String COMPRESS_TYPE = "gzip";
+    public static LoadBalancer LOAD_BALANCER;
     private int port = 8088;
     //维护一个zookeeper实例
     //private ZooKeeper zooKeeper;
@@ -60,6 +63,8 @@ public class JerryRpcBootstrap {
     public JerryRpcBootstrap registry(RegistryConfig registryConfig) {
         //尝试使用工厂方法模式，registryConfig获取一个注册中心
         this.registry = registryConfig.getRegistry();
+        //todo 修改
+        JerryRpcBootstrap.LOAD_BALANCER = new RoundRobinLoadBalancer();
         return this;
     }
 
@@ -143,4 +148,7 @@ public class JerryRpcBootstrap {
         return this;
     }
 
+    public Registry getRegistry() {
+        return registry;
+    }
 }

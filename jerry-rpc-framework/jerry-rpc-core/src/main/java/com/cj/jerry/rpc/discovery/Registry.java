@@ -3,6 +3,7 @@ package com.cj.jerry.rpc.discovery;
 import com.cj.jerry.rpc.ServiceConfig;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 
 public interface Registry {
 
@@ -16,8 +17,9 @@ public interface Registry {
 
     /**
      * 从注册中心拉取一个可用的服务
+     *
      * @param serviceName
      * @return
      */
-    InetSocketAddress lookup(String serviceName);
+    List<InetSocketAddress> lookup(String serviceName);
 }

@@ -48,7 +48,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
     }
 
     @Override
-    public InetSocketAddress lookup(String serviceName) {
+    public List<InetSocketAddress> lookup(String serviceName) {
         //找到服务对应的节点
         String serviceNode = Constant.BASE_PROVIDERS_PATH + "/" + serviceName;
 
@@ -62,8 +62,6 @@ public class ZookeeperRegistry extends AbstractRegistry {
         if (inetSocketAddresses.isEmpty()) {
             throw new RuntimeException("没有找到对应的服务");
         }
-        //TODO 选择一个可用的服务，而不是获取第一个：负载均衡
-        //TODO 每次调用去服务中心拉取？：缓存+watcher
-        return inetSocketAddresses.get(0);
+        return inetSocketAddresses;
     }
 }

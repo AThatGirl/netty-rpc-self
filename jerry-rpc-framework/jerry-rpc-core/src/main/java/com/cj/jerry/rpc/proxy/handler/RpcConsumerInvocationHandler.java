@@ -9,7 +9,6 @@ import com.cj.jerry.rpc.exception.NetworkException;
 import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.RequestPayload;
-import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFutureListener;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
         log.info("进入invoke方法");
         //1.从注册中心获取服务
         //传入服务的名字
-        InetSocketAddress address = registry.lookup(interfaceRef.getName());
+        InetSocketAddress address = JerryRpcBootstrap.LOAD_BALANCER.selectServiceAddress(interfaceRef.getName());
         if (log.isDebugEnabled()) {
             log.debug("获取了和【{}】建立的通道准备发送数据", address);
         }
