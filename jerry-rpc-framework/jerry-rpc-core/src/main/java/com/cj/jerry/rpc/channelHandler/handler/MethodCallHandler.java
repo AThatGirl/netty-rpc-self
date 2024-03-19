@@ -20,8 +20,10 @@ public class MethodCallHandler extends SimpleChannelInboundHandler<JerryRpcReque
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, JerryRpcRequest jerryRpcRequest) throws Exception {
         //获取负载内容
         RequestPayload requestPayload = jerryRpcRequest.getRequestPayload();
+        log.info("调用MethodCallHandler方法,requestPayload：{}", requestPayload);
         //根据负载内容进行方法调用
         Object object = null;
+        log.info("进入MethodCallHandler方法请求类型：{}", jerryRpcRequest.getRequestType());
         if (jerryRpcRequest.getRequestType() != RequestType.HEART_BEAT.getId()) {
             object = callTargetMethod(requestPayload);
         }

@@ -3,12 +3,11 @@ package com.cj.jerry.rpc;
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder;
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcResponseEncoder;
 import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
-import com.cj.jerry.rpc.core.HearbeatDetector;
+import com.cj.jerry.rpc.core.HeartbeatDetector;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import com.cj.jerry.rpc.loadbalancer.LoadBalancer;
-import com.cj.jerry.rpc.loadbalancer.impl.ConsistentHashBalancer;
-import com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer;
+import com.cj.jerry.rpc.loadbalancer.impl.MinimumResponseTimeBalancer;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -29,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class JerryRpcBootstrap {
-    public static final int PORT = 8092;
+    public static final int PORT = 8090;
     //JerryRpcBootstrap是一个单例，饿汉式
     private static final JerryRpcBootstrap jerryRpcBootstrap = new JerryRpcBootstrap();
 
@@ -70,7 +69,7 @@ public class JerryRpcBootstrap {
         //尝试使用工厂方法模式，registryConfig获取一个注册中心
         this.registry = registryConfig.getRegistry();
         //todo 修改
-        JerryRpcBootstrap.LOAD_BALANCER = new ConsistentHashBalancer();
+        JerryRpcBootstrap.LOAD_BALANCER = new MinimumResponseTimeBalancer();
         return this;
     }
 
@@ -133,6 +132,8 @@ public class JerryRpcBootstrap {
     }
 
     public JerryRpcBootstrap reference(ReferenceConfig<?> referenceConfig) {
+        //开启服务心跳检测
+        HeartbeatDetector.detectHeartbeat(referenceConfig.getInterfaceRef().getName());
         referenceConfig.setRegistryConfig(registry);
         return jerryRpcBootstrap;
     }

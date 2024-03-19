@@ -1,10 +1,7 @@
 package com.cj.jerry.rpc;
 
-import com.cj.jerry.rpc.core.HearbeatDetector;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.Map;
 
 @Slf4j
 public class ConsumerApplication {
@@ -33,10 +30,6 @@ public class ConsumerApplication {
             String jerryHi = helloJerryRpc.sayHi("Jerry hi");
             log.info("sayHi的返回值为: {}", jerryHi);
         }
-
-
-        //心跳检测
-        HearbeatDetector.detectHeartbeat(HelloJerryRpc.class.getName());
 
     }
 }

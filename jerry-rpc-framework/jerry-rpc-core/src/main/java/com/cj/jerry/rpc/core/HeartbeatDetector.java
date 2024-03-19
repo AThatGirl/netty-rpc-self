@@ -8,7 +8,6 @@ import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,16 +20,17 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
 @Slf4j
-public class HearbeatDetector {
+public class HeartbeatDetector {
 
     public static void detectHeartbeat(String serviceName) {
         //拉取服务
         Registry registry = JerryRpcBootstrap.getInstance().getRegistry();
+        log.info("心跳检测服务：{}", serviceName);
         List<InetSocketAddress> addresses = registry.lookup(serviceName);
         for (InetSocketAddress address : addresses) {
 
             try {
-                if (JerryRpcBootstrap.CHANNEL_CACHE.containsKey(address)) {
+                if (!JerryRpcBootstrap.CHANNEL_CACHE.containsKey(address)) {
                     Channel channel = NettyBootstrapInitializer.getBootstrap().connect(address).sync().channel();
                     JerryRpcBootstrap.CHANNEL_CACHE.put(address, channel);
                 }
@@ -40,7 +40,7 @@ public class HearbeatDetector {
         }
         //定时发送任务
         Thread thread = new Thread(() -> {
-            new Timer().scheduleAtFixedRate(new MyTimerTask(), 2000, 2000);
+            new Timer().scheduleAtFixedRate(new MyTimerTask(), 0, 2000);
         }, "jerry-rpc-heartbeat-detector");
         thread.setDaemon(true);
         thread.start();
@@ -62,7 +62,7 @@ public class HearbeatDetector {
                 JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
                         .requestId(JerryRpcBootstrap.idGenerator.getId())
                         .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.COMPRESS_TYPE).getCode())
-                        .requestType(RequestType.REQUEST_TYPE.getId())
+                        .requestType(RequestType.HEART_BEAT.getId())
                         .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
                         .timeStamp(start)
                         .build();
