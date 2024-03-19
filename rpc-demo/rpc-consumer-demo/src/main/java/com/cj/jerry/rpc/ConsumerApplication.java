@@ -26,7 +26,9 @@ public class ConsumerApplication {
 
         //获取一个代理对象
         HelloJerryRpc helloJerryRpc = reference.get();
-        String jerryHi = helloJerryRpc.sayHi("Jerry hi");
-        log.info("sayHi的返回值为: {}", jerryHi);
+        for (int i = 0; i < 10; i++) {
+            String jerryHi = helloJerryRpc.sayHi("Jerry hi");
+            log.info("sayHi的返回值为: {}", jerryHi);
+        }
     }
 }

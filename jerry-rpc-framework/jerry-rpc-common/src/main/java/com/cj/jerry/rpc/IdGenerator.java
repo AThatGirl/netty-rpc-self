@@ -1,9 +1,11 @@
 package com.cj.jerry.rpc;
 
 import com.cj.jerry.rpc.utils.DateUtils;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.atomic.LongAdder;
 
+@Slf4j
 public class IdGenerator {
 //集群不行
 //    private static LongAdder longAdder = new LongAdder();
@@ -21,9 +23,9 @@ public class IdGenerator {
     //同一个机房的同一个机器号的同一个时间可以因为并发量很大需要多个id
     //序列号 12bit
     public static final long START_STAMP = DateUtils.get("2022-01-01").getTime();
-    public static final long DATA_CENTER_BIT = 5;
-    public static final long MACHINE_BIT = 5;
-    public static final long SEQUENCE_BIT = 12;
+    public static final long DATA_CENTER_BIT = 5L;
+    public static final long MACHINE_BIT = 5L;
+    public static final long SEQUENCE_BIT = 12L;
 
     //最大值
     public static final long DATA_CENTER_MAX = ~(-1L << DATA_CENTER_BIT);
@@ -54,8 +56,12 @@ public class IdGenerator {
     public long getId() {
         //处理时间戳的问题
         long currentTime = System.currentTimeMillis();
+
         long timeStamp = currentTime - START_STAMP;
+        System.out.println(timeStamp);
+        System.out.println(DateUtils.get(START_STAMP));
         if (timeStamp < lastStamp) {
+            log.error("currentTime:{},lastStamp:{}",DateUtils.get(timeStamp),DateUtils.get(lastStamp));
             throw new RuntimeException("您的时钟服务器进行了时钟回调");
         }
         if (timeStamp == lastStamp) {
@@ -66,9 +72,9 @@ public class IdGenerator {
         } else {
             sequenceId.reset();
         }
-        lastStamp = currentTime;
+        lastStamp = timeStamp;
         long sequence = sequenceId.sum();
-        return timeStamp << TIMESTAMP_LEFT | dataCenterId << MACHINE_LEFT | machineId << DATA_CENTER_LEFT | sequence;
+        return timeStamp << TIMESTAMP_LEFT | dataCenterId << DATA_CENTER_BIT | machineId << MACHINE_LEFT | sequence;
     }
 
     private long getNextMillis() {

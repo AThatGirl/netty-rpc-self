@@ -14,5 +14,11 @@ public class DateUtils {
             throw new RuntimeException(e);
         }
     }
+    //传入时间戳返回日期String
+    public static String get(long timestamp) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(timestamp));
+    }
+
 
 }

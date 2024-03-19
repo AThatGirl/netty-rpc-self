@@ -34,14 +34,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        //
         log.info("进入invoke方法");
-        //1.从注册中心获取服务
-        //传入服务的名字
-        InetSocketAddress address = JerryRpcBootstrap.LOAD_BALANCER.selectServiceAddress(interfaceRef.getName());
-        if (log.isDebugEnabled()) {
-            log.debug("获取了和【{}】建立的通道准备发送数据", address);
-        }
         //封装报文
         RequestPayload requestPayload = RequestPayload.builder()
                 .interfaceName(interfaceRef.getName())
@@ -57,7 +50,15 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
                 .requestPayload(requestPayload)
                 .build();
+        //将请求存入本地线程，在合适的时候调用remove
+        JerryRpcBootstrap.REQUEST_THREAD_LOCAL.set(jerryRpcRequest);
         log.info("封装的请求完毕：{}",jerryRpcRequest);
+        //1.从注册中心获取服务
+        //传入服务的名字
+        InetSocketAddress address = JerryRpcBootstrap.LOAD_BALANCER.selectServiceAddress(interfaceRef.getName());
+        if (log.isDebugEnabled()) {
+            log.debug("获取了和【{}】建立的通道准备发送数据", address);
+        }
         Channel channel = getAvailableChannel(address);
         /*
                 //同步策略
@@ -77,6 +78,8 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 throw new RuntimeException(cause);
             }
         });
+        //清理ThreadLocal
+        JerryRpcBootstrap.REQUEST_THREAD_LOCAL.remove();
         log.info("consumer发送消息成功:{}", jerryRpcRequest);
 //                completableFuture.get(3, TimeUnit.SECONDS)
         //如果这里没有处理completableFuture，那么就会阻塞在这里

@@ -6,7 +6,9 @@ import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import com.cj.jerry.rpc.loadbalancer.LoadBalancer;
+import com.cj.jerry.rpc.loadbalancer.impl.ConsistentHashBalancer;
 import com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer;
+import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -25,6 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class JerryRpcBootstrap {
+    public static final int PORT = 8092;
     //JerryRpcBootstrap是一个单例，饿汉式
     private static final JerryRpcBootstrap jerryRpcBootstrap = new JerryRpcBootstrap();
 
@@ -36,7 +39,7 @@ public class JerryRpcBootstrap {
     public static String SERIALIZE_TYPE = "jdk";
     public static String COMPRESS_TYPE = "gzip";
     public static LoadBalancer LOAD_BALANCER;
-    private int port = 8088;
+    public static final ThreadLocal<JerryRpcRequest> REQUEST_THREAD_LOCAL = new ThreadLocal<>();
     //维护一个zookeeper实例
     //private ZooKeeper zooKeeper;
 
@@ -64,7 +67,7 @@ public class JerryRpcBootstrap {
         //尝试使用工厂方法模式，registryConfig获取一个注册中心
         this.registry = registryConfig.getRegistry();
         //todo 修改
-        JerryRpcBootstrap.LOAD_BALANCER = new RoundRobinLoadBalancer();
+        JerryRpcBootstrap.LOAD_BALANCER = new ConsistentHashBalancer();
         return this;
     }
 
@@ -110,7 +113,7 @@ public class JerryRpcBootstrap {
                         }
                     });
             //绑定端口
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(PORT).sync();
             //等待服务端口关闭
             channelFuture.channel().closeFuture().sync();
         } catch (Exception e) {

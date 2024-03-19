@@ -1,6 +1,7 @@
 package com.cj.jerry.rpc.discovery.impl;
 
 import com.cj.jerry.rpc.Constant;
+import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.ServiceConfig;
 import com.cj.jerry.rpc.discovery.AbstractRegistry;
 import com.cj.jerry.rpc.utils.NetUtils;
@@ -36,7 +37,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
         }
         //创建临时节点，ip:port
         //TODO 端口后续处理
-        String node = parentNode + "/" + NetUtils.getIp() + ":" + 8088;
+        String node = parentNode + "/" + NetUtils.getIp() + ":" + JerryRpcBootstrap.PORT;
         if (!ZookeeperUtils.exists(zooKeeper, node, null)) {
             ZookeeperNode zookeeperNode = new ZookeeperNode(node, null);
             ZookeeperUtils.createNode(zooKeeper, zookeeperNode, null, CreateMode.EPHEMERAL);
