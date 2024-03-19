@@ -3,6 +3,7 @@ package com.cj.jerry.rpc;
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder;
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcResponseEncoder;
 import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
+import com.cj.jerry.rpc.core.HearbeatDetector;
 import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import com.cj.jerry.rpc.loadbalancer.LoadBalancer;
@@ -21,6 +22,7 @@ import java.net.InetSocketAddress;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -48,6 +50,7 @@ public class JerryRpcBootstrap {
     //key是interface全限定名，value是ServiceConfig
     //连接的缓存
     public static final Map<InetSocketAddress, Channel> CHANNEL_CACHE = new ConcurrentHashMap<>(16); // <ip:port, channel>
+    public static final TreeMap<Long, Channel> ANSWER_TIME_CHANNEL_CACHE = new TreeMap<>(); // <ip:port, channel>
     public static final Map<String, ServiceConfig<?>> SERVICE_LIST = new HashMap<>(16);
     //定义全局对外挂起的completableFuture
     public static final Map<Long, CompletableFuture<Object>> PENDING_QUESTIONS = new HashMap<>(16);

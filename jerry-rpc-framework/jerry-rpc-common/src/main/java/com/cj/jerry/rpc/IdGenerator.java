@@ -58,8 +58,6 @@ public class IdGenerator {
         long currentTime = System.currentTimeMillis();
 
         long timeStamp = currentTime - START_STAMP;
-        System.out.println(timeStamp);
-        System.out.println(DateUtils.get(START_STAMP));
         if (timeStamp < lastStamp) {
             log.error("currentTime:{},lastStamp:{}",DateUtils.get(timeStamp),DateUtils.get(lastStamp));
             throw new RuntimeException("您的时钟服务器进行了时钟回调");

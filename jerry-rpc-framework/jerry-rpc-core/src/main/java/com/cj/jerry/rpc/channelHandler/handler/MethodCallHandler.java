@@ -2,6 +2,7 @@ package com.cj.jerry.rpc.channelHandler.handler;
 
 import com.cj.jerry.rpc.JerryRpcBootstrap;
 import com.cj.jerry.rpc.ServiceConfig;
+import com.cj.jerry.rpc.enumeration.RequestType;
 import com.cj.jerry.rpc.enumeration.RespCode;
 import com.cj.jerry.rpc.transport.message.JerryRpcRequest;
 import com.cj.jerry.rpc.transport.message.JerryRpcResponse;
@@ -20,7 +21,10 @@ public class MethodCallHandler extends SimpleChannelInboundHandler<JerryRpcReque
         //获取负载内容
         RequestPayload requestPayload = jerryRpcRequest.getRequestPayload();
         //根据负载内容进行方法调用
-        Object object = callTargetMethod(requestPayload);
+        Object object = null;
+        if (jerryRpcRequest.getRequestType() != RequestType.HEART_BEAT.getId()) {
+            object = callTargetMethod(requestPayload);
+        }
         //封装响应
         JerryRpcResponse response = new JerryRpcResponse();
         response.setCode(RespCode.SUCCESS.getCode());
@@ -47,7 +51,7 @@ public class MethodCallHandler extends SimpleChannelInboundHandler<JerryRpcReque
         try {
             Class<?> aClass = refImpl.getClass();
             Method method = aClass.getMethod(methodName, parameterTypes);
-            returnValue =method.invoke(refImpl, parameterValues);
+            returnValue = method.invoke(refImpl, parameterValues);
         } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
             log.error("调用服务【{}】的【{}】方法时发生异常", interfaceName, methodName, e);
             throw new RuntimeException(e);

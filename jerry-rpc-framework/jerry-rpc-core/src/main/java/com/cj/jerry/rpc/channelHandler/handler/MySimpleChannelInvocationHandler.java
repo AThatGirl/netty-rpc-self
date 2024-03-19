@@ -19,7 +19,7 @@ public class MySimpleChannelInvocationHandler extends SimpleChannelInboundHandle
         //从全局挂起的请求中寻找与之匹配待处理的cf
         Object result = jerryRpcResponse.getBody();
         log.info("客户端收到消息：{}", result);
-        CompletableFuture<Object> completableFuture = JerryRpcBootstrap.PENDING_QUESTIONS.get(1L);
+        CompletableFuture<Object> completableFuture = JerryRpcBootstrap.PENDING_QUESTIONS.get(jerryRpcResponse.getRequestId());
         completableFuture.complete(result);
         log.info("已经寻找到编号为{}的completableFuture处理响应", jerryRpcResponse.getRequestId());
     }

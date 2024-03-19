@@ -7,7 +7,7 @@ public class MessageFormatConstant {
     //版本
     public static final byte VERSION = 1;
     //头部长度
-    public static final short HEADER_LENGTH = (short) (MAGIC.length + 18);
+    public static final short HEADER_LENGTH = (short) (MAGIC.length + 26);
 
     //最大的帧长度
     public static final int MAX_FRAME_LENGTH = 1024 * 1024;

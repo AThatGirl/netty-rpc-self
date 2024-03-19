@@ -47,13 +47,18 @@ public class JerryRpcResponseEncoder extends MessageToByteEncoder<JerryRpcRespon
         byteBuf.writeByte(jerryRpcResponse.getCompressType());
         //8B requestId
         byteBuf.writeLong(jerryRpcResponse.getRequestId());
+        byteBuf.writeLong(jerryRpcResponse.getTimeStamp());
 
 
-        Serializer serializer = SerializerFactory.getSerializer(jerryRpcResponse.getSerializeType()).getSerializer();
-        byte[] bodyBytes = serializer.serialize(jerryRpcResponse.getBody());
-        //压缩
-        Compressor compressor = CompressorFactory.getCompressor(jerryRpcResponse.getCompressType()).getCompressor();
-        bodyBytes = compressor.compress(bodyBytes);
+        byte[] bodyBytes = null;
+        if (jerryRpcResponse.getBody() != null) {
+            Serializer serializer = SerializerFactory.getSerializer(jerryRpcResponse.getSerializeType()).getSerializer();
+            bodyBytes = serializer.serialize(jerryRpcResponse.getBody());
+            //压缩
+            Compressor compressor = CompressorFactory.getCompressor(jerryRpcResponse.getCompressType()).getCompressor();
+            bodyBytes = compressor.compress(bodyBytes);
+        }
+
         if (bodyBytes != null) {
             byteBuf.writeBytes(bodyBytes);
         }

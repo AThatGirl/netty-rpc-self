@@ -14,14 +14,14 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
 
 /**
- *
  * 0---1---2---3---4---5---6---7---8---9---10---11---12---13---14---15---16---17---18
  * | magic         |ver|header |   fullLength   |  qt |ser|comp|        requestId
  * -------|---------|--------|------------|-----------|----------|-------------|-----------
  * |                                    body                                              |
- *
+ * <p>
  * 基于长度字段的帧解码器
  */
 @Slf4j
@@ -64,36 +64,39 @@ public class JerryRpcRequestDecoder extends LengthFieldBasedFrameDecoder {
                 throw new RuntimeException("获取的请求不合法");
             }
         }
-        log.info("魔数{}匹配成功:" , new String(magic, StandardCharsets.UTF_8));
+        log.info("魔数{}匹配成功:", new String(magic, StandardCharsets.UTF_8));
         //解析版本
         byte version = byteBuf.readByte();
         if (version > MessageFormatConstant.VERSION) {
             throw new RuntimeException("获取的请求版本不支持");
         }
-        log.info("版本{}匹配成功" , version);
+        log.info("版本{}匹配成功", version);
         //解析头部长度
         short headerLength = byteBuf.readShort();
-        log.info("头部长度为{}" , headerLength);
+        log.info("头部长度为{}", headerLength);
         //解析总长度
         int fullLength = byteBuf.readInt();
-        log.info("总长度为{}" , fullLength);
+        log.info("总长度为{}", fullLength);
         //解析请求类型
         byte requestType = byteBuf.readByte();
-        log.info("请求类型为{}" , requestType);
+        log.info("请求类型为{}", requestType);
         //解析序列化
         byte serializeType = byteBuf.readByte();
-        log.info("序列化为{}" , serializeType);
+        log.info("序列化为{}", serializeType);
         //解析压缩
         byte compress = byteBuf.readByte();
-        log.info("压缩为{}" , compress);
+        log.info("压缩为{}", compress);
         //解析请求id
         long requestId = byteBuf.readLong();
-        log.info("请求id为{}" , requestId);
+        log.info("请求id为{}", requestId);
+        //时间戳
+        long timeStamp = byteBuf.readLong();
         JerryRpcRequest jerryRpcRequest = new JerryRpcRequest();
         jerryRpcRequest.setRequestType(requestType);
         jerryRpcRequest.setSerializeType(serializeType);
         jerryRpcRequest.setCompressType(compress);
         jerryRpcRequest.setRequestId(requestId);
+        jerryRpcRequest.setTimeStamp(timeStamp);
 
         //心跳请求没有负载，此处可以判断直接返回
         if (requestType == RequestType.HEART_BEAT.getId()) {
@@ -103,15 +106,18 @@ public class JerryRpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         int payloadLength = fullLength - headerLength;
         byte[] payload = new byte[payloadLength];
         byteBuf.readBytes(payload);
-        //解压缩
-        Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
-        payload = compressor.decompress(payload);
-        log.info("解压后的数据为:{}", payload);
+        if (payload.length != 0) {
+            //解压缩
+            Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
+            payload = compressor.decompress(payload);
+            log.info("解压后的数据为:{}", payload);
+            //反序列化
+            Serializer serializer = SerializerFactory.getSerializer(serializeType).getSerializer();
+            RequestPayload requestPayload = serializer.deserialize(payload, RequestPayload.class);
+            jerryRpcRequest.setRequestPayload(requestPayload);
+        }
 
-        //反序列化
-        Serializer serializer = SerializerFactory.getSerializer(serializeType).getSerializer();
-        RequestPayload requestPayload = serializer.deserialize(payload, RequestPayload.class);
-        jerryRpcRequest.setRequestPayload(requestPayload);
+
         return jerryRpcRequest;
     }
 }

@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.net.InetSocketAddress;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
@@ -48,6 +49,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.COMPRESS_TYPE).getCode())
                 .requestType(RequestType.REQUEST_TYPE.getId())
                 .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
+                .timeStamp(new Date().getTime())
                 .requestPayload(requestPayload)
                 .build();
         //将请求存入本地线程，在合适的时候调用remove
@@ -71,7 +73,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 }*/
         //异步策略
         CompletableFuture<Object> completableFuture = new CompletableFuture<>();
-        JerryRpcBootstrap.PENDING_QUESTIONS.put(1L, completableFuture);
+        JerryRpcBootstrap.PENDING_QUESTIONS.put(jerryRpcRequest.getRequestId(), completableFuture);
         channel.writeAndFlush(jerryRpcRequest).addListener((ChannelFutureListener) promise -> {
             if (!promise.isSuccess()) {
                 Throwable cause = promise.cause();

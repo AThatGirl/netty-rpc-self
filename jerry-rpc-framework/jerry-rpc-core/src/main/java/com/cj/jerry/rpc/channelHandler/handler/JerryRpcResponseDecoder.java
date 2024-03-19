@@ -20,12 +20,11 @@ import java.io.ObjectInputStream;
 import java.nio.charset.StandardCharsets;
 
 /**
- *
  * 0---1---2---3---4---5---6---7---8---9---10---11---12---13---14---15---16---17---18
  * | magic         |ver|header |   fullLength   |  qt |ser|comp|        requestId
  * -------|---------|--------|------------|-----------|----------|-------------|-----------
  * |                                    body                                              |
- *
+ * <p>
  * 基于长度字段的帧解码器
  */
 @Slf4j
@@ -68,7 +67,7 @@ public class JerryRpcResponseDecoder extends LengthFieldBasedFrameDecoder {
                 throw new RuntimeException("获取的请求不合法");
             }
         }
-        log.info("魔数{}匹配成功:" , new String(magic, StandardCharsets.UTF_8));
+        log.info("魔数{}匹配成功:", new String(magic, StandardCharsets.UTF_8));
         //解析版本
         byte version = byteBuf.readByte();
         if (version > MessageFormatConstant.VERSION) {
@@ -86,23 +85,29 @@ public class JerryRpcResponseDecoder extends LengthFieldBasedFrameDecoder {
         byte compress = byteBuf.readByte();
         //解析请求id
         long requestId = byteBuf.readLong();
+        //时间戳
+        long timeStamp = byteBuf.readLong();
         JerryRpcResponse jerryRpcResponse = new JerryRpcResponse();
         jerryRpcResponse.setCode(responseCode);
         jerryRpcResponse.setSerializeType(serialize);
         jerryRpcResponse.setCompressType(compress);
         jerryRpcResponse.setRequestId(requestId);
+        jerryRpcResponse.setTimeStamp(timeStamp);
 
         //解析body
         int bodyLength = fullLength - headerLength;
         byte[] payload = new byte[bodyLength];
         byteBuf.readBytes(payload);
-        //解压缩
-        Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
-        payload = compressor.decompress(payload);
+        Object body = null;
+        if (payload != null && payload.length > 0) {
+            //解压缩
+            Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
+            payload = compressor.decompress(payload);
 
-        //反序列化
-        Serializer serializer = SerializerFactory.getSerializer(serialize).getSerializer();
-        Object body = serializer.deserialize(payload, Object.class);
+            //反序列化
+            Serializer serializer = SerializerFactory.getSerializer(serialize).getSerializer();
+            body = serializer.deserialize(payload, Object.class);
+        }
         log.info("获取到请求:{}", jerryRpcResponse);
         jerryRpcResponse.setBody(body);
         return jerryRpcResponse;

@@ -21,6 +21,8 @@ public class JerryRpcResponse implements Serializable {
     //private Byte requestType;
     private byte compressType;
     private byte serializeType;
+    //时间戳
+    private long timeStamp;
 
     //响应码：1：成功，2：异常
     private byte code;
