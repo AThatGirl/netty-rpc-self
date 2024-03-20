@@ -1,14 +1,14 @@
 package com.cj.jerry.rpc;
 
 public class ServiceConfig<T> {
-    private Class<T> interfaceProvider;
+    private Class<?> interfaceProvider;
     private Object ref;
 
-    public Class<T> getInterfaceProvider() {
+    public Class<?> getInterfaceProvider() {
         return interfaceProvider;
     }
 
-    public void setInterfaceProvider(Class<T> interfaceProvider) {
+    public void setInterfaceProvider(Class<?> interfaceProvider) {
         this.interfaceProvider = interfaceProvider;
     }
 

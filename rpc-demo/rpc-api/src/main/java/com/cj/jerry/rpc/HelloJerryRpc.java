@@ -1,6 +1,8 @@
 package com.cj.jerry.rpc;
 
 
+import com.cj.jerry.rpc.annotation.JerryRpcApi;
+
 public interface HelloJerryRpc {
 
     /**

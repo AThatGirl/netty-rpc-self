@@ -1,5 +1,6 @@
 package com.cj.jerry.rpc;
 
+import com.cj.jerry.rpc.annotation.JerryRpcApi;
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcRequestDecoder;
 import com.cj.jerry.rpc.channelHandler.handler.JerryRpcResponseEncoder;
 import com.cj.jerry.rpc.channelHandler.handler.MethodCallHandler;
@@ -17,13 +18,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.File;
+import java.io.FileFilter;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetSocketAddress;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.net.URL;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -36,7 +39,7 @@ public class JerryRpcBootstrap {
     private String applicationName = "default";
     private RegistryConfig registryConfig;
     private ProtocolConfig protocolConfig;
-    public final static IdGenerator idGenerator = new IdGenerator(1,2);
+    public final static IdGenerator idGenerator = new IdGenerator(1, 2);
     public static String SERIALIZE_TYPE = "jdk";
     public static String COMPRESS_TYPE = "gzip";
     public static LoadBalancer LOAD_BALANCER;
@@ -148,6 +151,7 @@ public class JerryRpcBootstrap {
         log.info("当前工程使用了:{}序列化", SERIALIZE_TYPE);
         return this;
     }
+
     //压缩方式配置
     public JerryRpcBootstrap compress(String compressType) {
         COMPRESS_TYPE = compressType;
@@ -158,4 +162,88 @@ public class JerryRpcBootstrap {
     public Registry getRegistry() {
         return registry;
     }
+
+    public JerryRpcBootstrap scan(String packageName) {
+        //需要通过packageName获取其下所有的类的全限定名称
+        List<String> classNames = getAllClassNames(packageName);
+        //通过反射获取他的接口构建具体实现
+        List<Class<?>> classes = classNames.stream().map(className -> {
+                    try {
+                        return Class.forName(className);
+                    } catch (ClassNotFoundException e) {
+                        throw new RuntimeException(e);
+                    }
+                }).filter(clazz -> clazz.getAnnotation(JerryRpcApi.class) != null)
+                .collect(Collectors.toList());
+        log.info("扫描到{}个接口：{}", classes.size(), classes);
+        for (Class<?> aClass : classes) {
+            //获取接口
+            Class<?>[] interfaces = aClass.getInterfaces();
+            Object instance = null;
+            try {
+                instance = aClass.getConstructor().newInstance();
+            } catch (InstantiationException | IllegalAccessException | InvocationTargetException |
+                     NoSuchMethodException e) {
+                throw new RuntimeException(e);
+            }
+            for (Class<?> anInterface : interfaces) {
+                ServiceConfig<?> serviceConfig = new ServiceConfig<>();
+                serviceConfig.setInterfaceProvider(anInterface);
+                serviceConfig.setRef(instance);
+                publish(serviceConfig);
+                log.info("发布接口：{}", anInterface.getName());
+            }
+        }
+        //发布
+        return this;
+    }
+
+    private List<String> getAllClassNames(String packageName) {
+        //通过package获取绝对路径
+        String basePath = packageName.replaceAll("\\.", "/");
+        URL url = ClassLoader.getSystemClassLoader().getResource(basePath);
+        if (url == null) {
+            throw new RuntimeException("包扫描时路径不存在");
+        }
+        String absolutePath = url.getPath();
+        List<String> classNames = new ArrayList<>();
+        List<String> classNamesResult = recursionFile(absolutePath, classNames, basePath);
+        log.info("扫描到{}个类：{}", classNamesResult.size(), classNamesResult);
+        return classNamesResult;
+    }
+
+    private List<String> recursionFile(String absolutePath, List<String> classNames, String basePath) {
+        //获取文件
+        File file = new File(absolutePath);
+        //判断是否为文件夹
+        if (file.isDirectory()) {
+            log.info("扫描到文件夹：{}", file.getAbsolutePath());
+            //找到文件夹，继续递归
+            File[] children = file.listFiles(pathname -> pathname.isDirectory() || pathname.getName().endsWith(".class"));
+            if (children == null || children.length == 0) {
+                return classNames;
+            }
+            for (File child : children) {
+                if (child.isDirectory()) {
+                    recursionFile(child.getAbsolutePath(), classNames, basePath);
+                } else {
+                    String className = getClassNameByAbsolutePath(child.getAbsolutePath(), basePath);
+                    classNames.add(className);
+                }
+            }
+
+        } else {
+            String className = getClassNameByAbsolutePath(absolutePath, basePath);
+            classNames.add(className);
+        }
+        return classNames;
+    }
+
+    private String getClassNameByAbsolutePath(String absolutePath, String basePath) {
+        String fileName = absolutePath
+                .substring(absolutePath.indexOf(basePath.replaceAll("/", "\\\\")))
+                .replaceAll("\\\\", ".");
+        return fileName.substring(0, fileName.indexOf(".class"));
+    }
+
 }
