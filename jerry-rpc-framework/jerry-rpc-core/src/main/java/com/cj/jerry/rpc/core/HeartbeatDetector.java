@@ -64,10 +64,10 @@ public class HeartbeatDetector {
                     long start = System.currentTimeMillis();
 
                     JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
-                            .requestId(JerryRpcBootstrap.idGenerator.getId())
-                            .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.COMPRESS_TYPE).getCode())
+                            .requestId(JerryRpcBootstrap.getInstance().getConfiguration().getIdGenerator().getId())
+                            .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.getInstance().getConfiguration().getCompressType()).getCode())
                             .requestType(RequestType.HEART_BEAT.getId())
-                            .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
+                            .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.getInstance().getConfiguration().getSerializeType()).getCode())
                             .timeStamp(start)
                             .build();
                     //写出报文

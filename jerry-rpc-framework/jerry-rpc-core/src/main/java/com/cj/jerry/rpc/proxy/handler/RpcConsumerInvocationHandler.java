@@ -45,10 +45,10 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
                 .returnType(method.getReturnType())
                 .build();
         JerryRpcRequest jerryRpcRequest = JerryRpcRequest.builder()
-                .requestId(JerryRpcBootstrap.idGenerator.getId())
-                .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.COMPRESS_TYPE).getCode())
+                .requestId(JerryRpcBootstrap.getInstance().getConfiguration().getIdGenerator().getId())
+                .compressType(CompressorFactory.getCompressor(JerryRpcBootstrap.getInstance().getConfiguration().getCompressType()).getCode())
                 .requestType(RequestType.REQUEST_TYPE.getId())
-                .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.SERIALIZE_TYPE).getCode())
+                .serializeType(SerializerFactory.getSerializer(JerryRpcBootstrap.getInstance().getConfiguration().getSerializeType()).getCode())
                 .timeStamp(new Date().getTime())
                 .requestPayload(requestPayload)
                 .build();
@@ -57,7 +57,7 @@ public class RpcConsumerInvocationHandler implements InvocationHandler {
         log.info("封装的请求完毕：{}",jerryRpcRequest);
         //1.从注册中心获取服务
         //传入服务的名字
-        InetSocketAddress address = JerryRpcBootstrap.LOAD_BALANCER.selectServiceAddress(interfaceRef.getName());
+        InetSocketAddress address = JerryRpcBootstrap.getInstance().getConfiguration().getLoadBalancer().selectServiceAddress(interfaceRef.getName());
         if (log.isDebugEnabled()) {
             log.debug("获取了和【{}】建立的通道准备发送数据", address);
         }

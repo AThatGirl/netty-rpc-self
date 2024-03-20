@@ -14,3 +14,81 @@ org.apache.zookeeper.ClientCnxn$SessionTimeoutException: Client session timed ou
 2024-03-20  12:40:45.642 [main-SendThread(127.0.0.1:2181)] WARN  org.apache.zookeeper.ClientCnxn - Session 0x1000002083400df for server 127.0.0.1/127.0.0.1:2181, Closing socket connection. Attempting reconnect except it is a SessionExpiredException.
 org.apache.zookeeper.ClientCnxn$SessionTimeoutException: Client session timed out, have not heard from server in 11157ms for session id 0x1000002083400df
 	at org.apache.zookeeper.ClientCnxn$SendThread.run(ClientCnxn.java:1257)
+2024-03-20  17:13:24.214 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseObject(Configuration.java:153)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:57)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:41)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:14:04.777 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseObject(Configuration.java:153)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:57)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:41)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:14:59.958 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseObject(Configuration.java:153)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:57)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:41)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:16:13.533 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseString(Configuration.java:120)
+	at com.cj.jerry.rpc.Configuration.resolveIdGenerator(Configuration.java:84)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:58)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:41)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:17:30.977 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseString(Configuration.java:134)
+	at com.cj.jerry.rpc.Configuration.resolveIdGenerator(Configuration.java:85)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:58)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:41)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:17:56.306 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseString(Configuration.java:137)
+	at com.cj.jerry.rpc.Configuration.resolveIdGenerator(Configuration.java:88)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:60)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:43)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:18:26.249 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseObject(Configuration.java:153)
+	at com.cj.jerry.rpc.Configuration.resolveLoadBalancer(Configuration.java:106)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:61)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:43)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:19:18.245 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseObject(Configuration.java:153)
+	at com.cj.jerry.rpc.Configuration.resolveLoadBalancer(Configuration.java:106)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:61)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:43)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-20  17:21:02.401 [main] ERROR com.cj.jerry.rpc.Configuration - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.Configuration.parseString(Configuration.java:136)
+	at com.cj.jerry.rpc.Configuration.resolveSerializeType(Configuration.java:113)
+	at com.cj.jerry.rpc.Configuration.loadFormXml(Configuration.java:63)
+	at com.cj.jerry.rpc.Configuration.<init>(Configuration.java:43)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:46)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:35)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)

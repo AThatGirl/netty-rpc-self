@@ -40,7 +40,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
         }
         //创建临时节点，ip:port
         //TODO 端口后续处理
-        String node = parentNode + "/" + NetUtils.getIp() + ":" + JerryRpcBootstrap.PORT;
+        String node = parentNode + "/" + NetUtils.getIp() + ":" + JerryRpcBootstrap.getInstance().getConfiguration().getPort();
         if (!ZookeeperUtils.exists(zooKeeper, node, null)) {
             ZookeeperNode zookeeperNode = new ZookeeperNode(node, null);
             ZookeeperUtils.createNode(zooKeeper, zookeeperNode, null, CreateMode.EPHEMERAL);

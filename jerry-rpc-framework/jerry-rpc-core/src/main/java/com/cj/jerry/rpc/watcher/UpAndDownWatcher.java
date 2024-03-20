@@ -45,7 +45,7 @@ public class UpAndDownWatcher implements Watcher {
         log.info("服务列表数量为：{}", JerryRpcBootstrap.CHANNEL_CACHE.size());
 
         //获得负载均衡器，进行重新的loadBalance
-        LoadBalancer loadBalancer = JerryRpcBootstrap.LOAD_BALANCER;
+        LoadBalancer loadBalancer = JerryRpcBootstrap.getInstance().getConfiguration().getLoadBalancer();
         loadBalancer.reLoadBalance(serviceName, addresses);
 
     }
