@@ -59,10 +59,10 @@ public abstract class AbstractLoadBalancer implements LoadBalancer {
             return address;
         }
 
-        @Override
-        public void reBalance() {
-
-        }
     }
 
+    @Override
+    public synchronized void reLoadBalance(String serviceName, List<InetSocketAddress> serviceList) {
+        cache.put(serviceName, getSelector(serviceList));
+    }
 }

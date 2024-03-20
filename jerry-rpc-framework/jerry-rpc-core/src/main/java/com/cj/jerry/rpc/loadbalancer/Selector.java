@@ -1,7 +1,6 @@
 package com.cj.jerry.rpc.loadbalancer;
 
 import java.net.InetSocketAddress;
-import java.util.List;
 
 /**
  *
@@ -14,6 +13,4 @@ public interface Selector {
      */
     InetSocketAddress getNext();
 
-    //todo 服务动态上下线
-    void reBalance();
 }

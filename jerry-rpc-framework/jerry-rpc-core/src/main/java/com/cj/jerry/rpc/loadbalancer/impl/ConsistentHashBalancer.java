@@ -46,11 +46,6 @@ public class ConsistentHashBalancer extends AbstractLoadBalancer {
             return cricle.get(hash);
         }
 
-        @Override
-        public void reBalance() {
-
-        }
-
 
         public ConsistentHashSelector(List<InetSocketAddress> serviceList, int virtualNodes) {
             //将节点转换为虚拟节点，进行挂载

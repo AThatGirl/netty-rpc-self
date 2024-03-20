@@ -7,8 +7,11 @@ import com.cj.jerry.rpc.discovery.AbstractRegistry;
 import com.cj.jerry.rpc.utils.NetUtils;
 import com.cj.jerry.rpc.utils.zookeeper.ZookeeperNode;
 import com.cj.jerry.rpc.utils.zookeeper.ZookeeperUtils;
+import com.cj.jerry.rpc.watcher.UpAndDownWatcher;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.WatchedEvent;
+import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
 
 import java.net.InetSocketAddress;
@@ -54,7 +57,7 @@ public class ZookeeperRegistry extends AbstractRegistry {
         String serviceNode = Constant.BASE_PROVIDERS_PATH + "/" + serviceName;
 
         //从zk中获取对应的子节点:192.168.111.111:2125
-        List<String> children = ZookeeperUtils.getChildren(zooKeeper, serviceNode, null);
+        List<String> children = ZookeeperUtils.getChildren(zooKeeper, serviceNode, new UpAndDownWatcher());
         List<InetSocketAddress> inetSocketAddresses = children.stream().map(ipString -> {
             String ip = ipString.split(":")[0];
             String port = ipString.split(":")[1];

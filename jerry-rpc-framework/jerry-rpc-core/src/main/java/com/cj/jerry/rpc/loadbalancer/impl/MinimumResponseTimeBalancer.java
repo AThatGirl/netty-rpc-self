@@ -39,10 +39,5 @@ public class MinimumResponseTimeBalancer extends AbstractLoadBalancer {
             Channel channel = (Channel) JerryRpcBootstrap.CHANNEL_CACHE.values().toArray()[0];
             return (InetSocketAddress) channel.remoteAddress();
         }
-
-        @Override
-        public void reBalance() {
-
-        }
     }
 }
