@@ -1,0 +1,3 @@
+com.cj.jerry.rpc.loadbalancer.impl.ConsistentHashBalancer
+com.cj.jerry.rpc.loadbalancer.impl.MinimumResponseTimeBalancer
+com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer
