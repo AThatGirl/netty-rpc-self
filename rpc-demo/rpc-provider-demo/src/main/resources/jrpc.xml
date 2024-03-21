@@ -8,7 +8,7 @@
     <serializer code = "1" name = "jdk" class = "com.cj.jerry.rpc.serialize.impl.JdkSerializer"/>
     <registry url = "zookeeper://127.0.0.1:2181"/>
     <loadBalancer code = "1" name = "roundRobinLoad" class = "com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer"/>
-<!--    <loadBalancer type = "minimumResponseTime"/>-->
+    <!--    <loadBalancer type = "minimumResponseTime"/>-->
     <idGenerator class = "com.cj.jerry.rpc.IdGenerator" dataCenterId = "1" machineId = "4"/>
 
 </configuration>

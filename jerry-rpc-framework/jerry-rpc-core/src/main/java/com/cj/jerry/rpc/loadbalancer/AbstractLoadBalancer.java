@@ -1,9 +1,7 @@
 package com.cj.jerry.rpc.loadbalancer;
 
 import com.cj.jerry.rpc.JerryRpcBootstrap;
-import com.cj.jerry.rpc.discovery.Registry;
 import com.cj.jerry.rpc.exception.LoadBalancerException;
-import com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer;
 
 import java.net.InetSocketAddress;
 import java.util.List;

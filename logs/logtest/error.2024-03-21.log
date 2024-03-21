@@ -1,0 +1,74 @@
+2024-03-21  13:50:42.385 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  13:50:42.386 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  13:50:42.386 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  13:50:42.450 [main] ERROR com.cj.jerry.rpc.config.XmlResolver - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.config.XmlResolver.parseString(XmlResolver.java:155)
+	at com.cj.jerry.rpc.config.XmlResolver.resolveCompressor(XmlResolver.java:112)
+	at com.cj.jerry.rpc.config.XmlResolver.loadFormXml(XmlResolver.java:44)
+	at com.cj.jerry.rpc.config.Configuration.<init>(Configuration.java:54)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:47)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:36)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-21  13:50:59.242 [nioEventLoopGroup-3-1] WARN  io.netty.channel.DefaultChannelPipeline - An exceptionCaught() event was fired, and it reached at the tail of the pipeline. It usually means the last handler in the pipeline did not handle the exception.
+java.io.IOException: 远程主机强迫关闭了一个现有的连接。
+	at java.base/sun.nio.ch.SocketDispatcher.read0(Native Method)
+	at java.base/sun.nio.ch.SocketDispatcher.read(SocketDispatcher.java:43)
+	at java.base/sun.nio.ch.IOUtil.readIntoNativeBuffer(IOUtil.java:276)
+	at java.base/sun.nio.ch.IOUtil.read(IOUtil.java:233)
+	at java.base/sun.nio.ch.IOUtil.read(IOUtil.java:223)
+	at java.base/sun.nio.ch.SocketChannelImpl.read(SocketChannelImpl.java:358)
+	at io.netty.buffer.PooledByteBuf.setBytes(PooledByteBuf.java:259)
+	at io.netty.buffer.AbstractByteBuf.writeBytes(AbstractByteBuf.java:1132)
+	at io.netty.channel.socket.nio.NioSocketChannel.doReadBytes(NioSocketChannel.java:357)
+	at io.netty.channel.nio.AbstractNioByteChannel$NioByteUnsafe.read(AbstractNioByteChannel.java:151)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKey(NioEventLoop.java:788)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeysOptimized(NioEventLoop.java:724)
+	at io.netty.channel.nio.NioEventLoop.processSelectedKeys(NioEventLoop.java:650)
+	at io.netty.channel.nio.NioEventLoop.run(NioEventLoop.java:562)
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:997)
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74)
+	at io.netty.util.concurrent.FastThreadLocalRunnable.run(FastThreadLocalRunnable.java:30)
+	at java.base/java.lang.Thread.run(Thread.java:834)
+2024-03-21  13:53:42.736 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  13:53:42.736 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  13:53:42.736 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  13:53:42.780 [main] ERROR com.cj.jerry.rpc.config.XmlResolver - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.config.XmlResolver.parseString(XmlResolver.java:155)
+	at com.cj.jerry.rpc.config.XmlResolver.resolveCompressor(XmlResolver.java:112)
+	at com.cj.jerry.rpc.config.XmlResolver.loadFormXml(XmlResolver.java:44)
+	at com.cj.jerry.rpc.config.Configuration.<init>(Configuration.java:54)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:47)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:36)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-21  13:54:55.929 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  13:54:55.929 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  13:54:55.930 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  13:54:55.971 [main] ERROR com.cj.jerry.rpc.config.XmlResolver - 加载xml配置失败
+java.lang.NullPointerException: null
+	at com.cj.jerry.rpc.config.XmlResolver.parseString(XmlResolver.java:155)
+	at com.cj.jerry.rpc.config.XmlResolver.resolveCompressor(XmlResolver.java:112)
+	at com.cj.jerry.rpc.config.XmlResolver.loadFormXml(XmlResolver.java:44)
+	at com.cj.jerry.rpc.config.Configuration.<init>(Configuration.java:54)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<init>(JerryRpcBootstrap.java:47)
+	at com.cj.jerry.rpc.JerryRpcBootstrap.<clinit>(JerryRpcBootstrap.java:36)
+	at com.cj.jerry.rpc.ProviderApplication.main(ProviderApplication.java:12)
+2024-03-21  13:55:46.026 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  13:55:46.031 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  13:55:46.032 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  13:57:13.774 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  13:57:25.592 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  13:57:25.597 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  13:58:53.886 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  13:58:58.339 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  13:58:58.340 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  14:06:21.501 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  14:06:29.360 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  14:06:29.364 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  14:08:20.171 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  14:11:31.650 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  14:11:31.650 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类
+2024-03-21  14:13:28.915 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.loadbalancer.LoadBalancer】的实现类
+2024-03-21  14:13:28.919 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.compress.Compressor】的实现类
+2024-03-21  14:13:28.920 [main] ERROR com.cj.jerry.rpc.spi.SpiHandler - 没有找到【com.cj.jerry.rpc.serialize.Serializer】的实现类

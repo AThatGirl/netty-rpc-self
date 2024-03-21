@@ -108,11 +108,11 @@ public class JerryRpcRequestDecoder extends LengthFieldBasedFrameDecoder {
         byteBuf.readBytes(payload);
         if (payload.length != 0) {
             //解压缩
-            Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
+            Compressor compressor = CompressorFactory.getCompressor(compress).getImpl();
             payload = compressor.decompress(payload);
             log.info("解压后的数据为:{}", payload);
             //反序列化
-            Serializer serializer = SerializerFactory.getSerializer(serializeType).getSerializer();
+            Serializer serializer = SerializerFactory.getSerializer(serializeType).getImpl();
             RequestPayload requestPayload = serializer.deserialize(payload, RequestPayload.class);
             jerryRpcRequest.setRequestPayload(requestPayload);
         }

@@ -52,10 +52,10 @@ public class JerryRpcResponseEncoder extends MessageToByteEncoder<JerryRpcRespon
 
         byte[] bodyBytes = null;
         if (jerryRpcResponse.getBody() != null) {
-            Serializer serializer = SerializerFactory.getSerializer(jerryRpcResponse.getSerializeType()).getSerializer();
+            Serializer serializer = SerializerFactory.getSerializer(jerryRpcResponse.getSerializeType()).getImpl();
             bodyBytes = serializer.serialize(jerryRpcResponse.getBody());
             //压缩
-            Compressor compressor = CompressorFactory.getCompressor(jerryRpcResponse.getCompressType()).getCompressor();
+            Compressor compressor = CompressorFactory.getCompressor(jerryRpcResponse.getCompressType()).getImpl();
             bodyBytes = compressor.compress(bodyBytes);
         }
 

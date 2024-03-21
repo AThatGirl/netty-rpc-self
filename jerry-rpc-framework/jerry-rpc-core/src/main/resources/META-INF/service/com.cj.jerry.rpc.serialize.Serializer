@@ -1,0 +1,3 @@
+1-jdk-com.cj.jerry.rpc.serialize.impl.JdkSerializer
+2-json-com.cj.jerry.rpc.serialize.impl.JsonSerializer
+3-hessian-com.cj.jerry.rpc.serialize.impl.HessianSerializer

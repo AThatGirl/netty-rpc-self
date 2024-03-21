@@ -46,10 +46,10 @@ public class JerryRpcRequestEncoder extends MessageToByteEncoder<JerryRpcRequest
         //判断心跳请求
         byte[] bodyBytes = null;
         if (jerryRpcRequest.getRequestPayload() != null) {
-            Serializer serializer = SerializerFactory.getSerializer(jerryRpcRequest.getSerializeType()).getSerializer();
+            Serializer serializer = SerializerFactory.getSerializer(jerryRpcRequest.getSerializeType()).getImpl();
             bodyBytes = serializer.serialize(jerryRpcRequest.getRequestPayload());
             //压缩方式
-            Compressor compressor = CompressorFactory.getCompressor(jerryRpcRequest.getCompressType()).getCompressor();
+            Compressor compressor = CompressorFactory.getCompressor(jerryRpcRequest.getCompressType()).getImpl();
             bodyBytes = compressor.compress(bodyBytes);
 
         }

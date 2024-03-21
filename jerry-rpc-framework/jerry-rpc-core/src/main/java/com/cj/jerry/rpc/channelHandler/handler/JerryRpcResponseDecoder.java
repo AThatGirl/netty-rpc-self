@@ -101,11 +101,11 @@ public class JerryRpcResponseDecoder extends LengthFieldBasedFrameDecoder {
         Object body = null;
         if (payload != null && payload.length > 0) {
             //解压缩
-            Compressor compressor = CompressorFactory.getCompressor(compress).getCompressor();
+            Compressor compressor = CompressorFactory.getCompressor(compress).getImpl();
             payload = compressor.decompress(payload);
 
             //反序列化
-            Serializer serializer = SerializerFactory.getSerializer(serialize).getSerializer();
+            Serializer serializer = SerializerFactory.getSerializer(serialize).getImpl();
             body = serializer.deserialize(payload, Object.class);
         }
         log.info("获取到请求:{}", jerryRpcResponse);

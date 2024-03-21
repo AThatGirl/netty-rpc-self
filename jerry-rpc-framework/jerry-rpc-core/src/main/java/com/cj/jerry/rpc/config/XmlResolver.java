@@ -4,11 +4,13 @@ package com.cj.jerry.rpc.config;
 import com.cj.jerry.rpc.IdGenerator;
 import com.cj.jerry.rpc.ProtocolConfig;
 import com.cj.jerry.rpc.compress.Compressor;
+import com.cj.jerry.rpc.compress.CompressorFactory;
 import com.cj.jerry.rpc.compress.impl.GzipCompressor;
 import com.cj.jerry.rpc.discovery.RegistryConfig;
 import com.cj.jerry.rpc.loadbalancer.LoadBalancer;
 import com.cj.jerry.rpc.loadbalancer.impl.RoundRobinLoadBalancer;
 import com.cj.jerry.rpc.serialize.Serializer;
+import com.cj.jerry.rpc.serialize.SerializerFactory;
 import com.cj.jerry.rpc.serialize.impl.JdkSerializer;
 import lombok.Data;
 import lombok.ToString;
@@ -21,6 +23,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.*;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Objects;
 
 /**
  * 代码配置->xml配置->默认配置
@@ -38,7 +41,11 @@ public class XmlResolver {
             DocumentBuilder builder = factory.newDocumentBuilder();
             InputStream inputStream = ClassLoader.getSystemClassLoader().getResourceAsStream("jrpc.xml");
             Document document = builder.parse(inputStream);
+            ObjectWrapper<Compressor> compressorObjectWrapper = resolveCompressor(document, XPathFactory.newInstance().newXPath());
+            CompressorFactory.addCompressor(compressorObjectWrapper);
 
+            ObjectWrapper<Serializer> serializerObjectWrapper = resolveSerializer(document, XPathFactory.newInstance().newXPath());
+            SerializerFactory.addSerializer(serializerObjectWrapper);
             //获取xpath解析器
             XPathFactory xPathFactory = XPathFactory.newInstance();
             XPath xpath = xPathFactory.newXPath();
@@ -48,11 +55,11 @@ public class XmlResolver {
             configuration.setLoadBalancer(resolveLoadBalancer(document, xpath));
             configuration.setRegistryConfig(resolveRegistryConfig(document, xpath));
             configuration.setSerializeType(resolveSerializeType(document, xpath));
-            configuration.setSerializer(resolveSerializer(document, xpath));
+
             configuration.setCompressType(resolveCompressType(document, xpath));
-            configuration.setCompressor(resolveCompressor(document, xpath));
+
             configuration.setProtocolConfig(new ProtocolConfig(configuration.getSerializeType()));
-            System.out.println(this);
+            log.info("加载xml配置成功");
         } catch (Exception e) {
             log.error("加载xml配置失败", e);
         }
@@ -99,16 +106,25 @@ public class XmlResolver {
         return parseString(document, xpath, "/configuration/compressType", "type");
     }
 
-    private Compressor resolveCompressor(Document document, XPath xpath) {
-        return parseObject(document, xpath, "/configuration/compressor", null);
+    private ObjectWrapper<Compressor> resolveCompressor(Document document, XPath xpath) {
+        String expression = "/configuration/compressor";
+        Compressor compressor = parseObject(document, xpath, expression, null);
+        Byte code = Byte.valueOf(Objects.requireNonNull(parseString(document, xpath, expression, "code")));
+        String name = parseString(document, xpath, expression, "name");
+        return new ObjectWrapper<>(code, name, compressor);
+
     }
 
     private String resolveSerializeType(Document document, XPath xpath) {
         return parseString(document, xpath, "/configuration/serializeType", "type");
     }
 
-    private Serializer resolveSerializer(Document document, XPath xpath) {
-        return parseObject(document, xpath, "/configuration/serializer", null);
+    private ObjectWrapper<Serializer> resolveSerializer(Document document, XPath xpath) {
+        String expression = "/configuration/serializer";
+        Serializer serializer = parseObject(document, xpath, expression, null);
+        Byte code = Byte.valueOf(Objects.requireNonNull(parseString(document, xpath, expression, "code")));
+        String name = parseString(document, xpath, expression, "name");
+        return new ObjectWrapper<>(code, name, serializer);
     }
 
     private String resolveProtocolType(Document document, XPath xpath) {
